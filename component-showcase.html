@@ -549,6 +549,105 @@
         .view-content.active {
             display: block;
         }
+        
+        /* Loading Spinner */
+        .loading-spinner {
+            border: 2px solid var(--jjik-border);
+            border-top-color: transparent;
+            border-right-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Loading Dots */
+        .loading-dots {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .loading-dots .dot {
+            width: 8px;
+            height: 8px;
+            background: var(--jjik-primary);
+            border-radius: 50%;
+            animation: pulse 1.4s ease-in-out infinite;
+        }
+        
+        .loading-dots .dot:nth-child(1) {
+            animation-delay: 0s;
+        }
+        
+        .loading-dots .dot:nth-child(2) {
+            animation-delay: 0.15s;
+        }
+        
+        .loading-dots .dot:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.4;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+        
+        /* Skeleton Components */
+        .skeleton-line,
+        .skeleton-avatar,
+        .skeleton-card {
+            background: linear-gradient(
+                90deg,
+                var(--jjik-bg-elevated) 0%,
+                rgba(255, 255, 255, 0.05) 50%,
+                var(--jjik-bg-elevated) 100%
+            );
+            background-size: 200% 100%;
+            animation: shimmer 1.5s ease-in-out infinite;
+        }
+        
+        .skeleton-line {
+            height: 12px;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+        
+        .skeleton-avatar {
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        
+        .skeleton-card {
+            padding: var(--space-4);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--jjik-border);
+        }
+        
+        .skeleton-text {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        @keyframes shimmer {
+            0% {
+                background-position: 200% 0;
+            }
+            100% {
+                background-position: -200% 0;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1009,6 +1108,143 @@
                                 확인
                             </button>
                         </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Loading & Skeleton Section -->
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-title">⏳ Loading & Skeleton Components</h2>
+                    <p class="section-description">로딩 상태 표시용 컴포넌트 (NEW)</p>
+                </div>
+                
+                <div class="component-grid">
+                    <!-- Loading Spinner -->
+                    <div class="component-card">
+                        <h3 class="component-card-title">Loading Spinner</h3>
+                        <div class="component-preview">
+                            <div style="display: flex; gap: var(--space-4); align-items: center; flex-wrap: wrap;">
+                                <!-- XS -->
+                                <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                                    <div class="loading-spinner" style="width: 12px; height: 12px; border-width: 2px;"></div>
+                                    <span style="font-size: 11px; color: var(--jjik-text-tertiary);">XS</span>
+                                </div>
+                                <!-- SM -->
+                                <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                                    <div class="loading-spinner" style="width: 16px; height: 16px; border-width: 2px;"></div>
+                                    <span style="font-size: 11px; color: var(--jjik-text-tertiary);">SM</span>
+                                </div>
+                                <!-- MD -->
+                                <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                                    <div class="loading-spinner" style="width: 24px; height: 24px; border-width: 2px;"></div>
+                                    <span style="font-size: 11px; color: var(--jjik-text-tertiary);">MD</span>
+                                </div>
+                                <!-- LG -->
+                                <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                                    <div class="loading-spinner" style="width: 32px; height: 32px; border-width: 3px;"></div>
+                                    <span style="font-size: 11px; color: var(--jjik-text-tertiary);">LG</span>
+                                </div>
+                                <!-- XL -->
+                                <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                                    <div class="loading-spinner" style="width: 48px; height: 48px; border-width: 4px;"></div>
+                                    <span style="font-size: 11px; color: var(--jjik-text-tertiary);">XL</span>
+                                </div>
+                            </div>
+                            <div style="margin-top: 16px; display: flex; align-items: center; gap: 12px;">
+                                <div class="loading-spinner" style="width: 16px; height: 16px;"></div>
+                                <span style="font-size: 14px; color: var(--jjik-text-secondary);">With Label</span>
+                            </div>
+                        </div>
+                        <div class="component-code">&lt;LoadingSpinner size="md" variant="primary" /&gt;</div>
+                    </div>
+                    
+                    <!-- Loading Dots -->
+                    <div class="component-card">
+                        <h3 class="component-card-title">Loading Dots</h3>
+                        <div class="component-preview">
+                            <div style="display: flex; align-items: center; justify-content: center; padding: var(--space-6);">
+                                <div class="loading-dots">
+                                    <div class="dot"></div>
+                                    <div class="dot"></div>
+                                    <div class="dot"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="component-code">&lt;LoadingDots /&gt;</div>
+                    </div>
+                    
+                    <!-- Skeleton Text -->
+                    <div class="component-card">
+                        <h3 class="component-card-title">Skeleton Text</h3>
+                        <div class="component-preview">
+                            <div class="skeleton-text">
+                                <div class="skeleton-line" style="width: 100%;"></div>
+                                <div class="skeleton-line" style="width: 90%;"></div>
+                                <div class="skeleton-line" style="width: 80%;"></div>
+                            </div>
+                        </div>
+                        <div class="component-code">&lt;SkeletonText lines={3} /&gt;</div>
+                    </div>
+                    
+                    <!-- Skeleton Avatar -->
+                    <div class="component-card">
+                        <h3 class="component-card-title">Skeleton Avatar</h3>
+                        <div class="component-preview">
+                            <div style="display: flex; gap: var(--space-4); align-items: center;">
+                                <div class="skeleton-avatar" style="width: 32px; height: 32px;"></div>
+                                <div class="skeleton-avatar" style="width: 40px; height: 40px;"></div>
+                                <div class="skeleton-avatar" style="width: 48px; height: 48px;"></div>
+                                <div class="skeleton-avatar" style="width: 64px; height: 64px;"></div>
+                            </div>
+                        </div>
+                        <div class="component-code">&lt;SkeletonAvatar size="md" /&gt;</div>
+                    </div>
+                    
+                    <!-- Skeleton Card -->
+                    <div class="component-card">
+                        <h3 class="component-card-title">Skeleton Card</h3>
+                        <div class="component-preview">
+                            <div class="skeleton-card">
+                                <div style="display: flex; gap: 12px; margin-bottom: 16px;">
+                                    <div class="skeleton-avatar" style="width: 40px; height: 40px;"></div>
+                                    <div style="flex: 1;">
+                                        <div class="skeleton-line" style="width: 60%; height: 16px; margin-bottom: 8px;"></div>
+                                        <div class="skeleton-line" style="width: 40%; height: 14px;"></div>
+                                    </div>
+                                </div>
+                                <div class="skeleton-line" style="width: 100%; height: 120px; border-radius: 8px; margin-bottom: 12px;"></div>
+                                <div class="skeleton-text">
+                                    <div class="skeleton-line" style="width: 100%;"></div>
+                                    <div class="skeleton-line" style="width: 85%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="component-code">&lt;SkeletonCard /&gt;</div>
+                    </div>
+                    
+                    <!-- Skeleton List -->
+                    <div class="component-card">
+                        <h3 class="component-card-title">Skeleton List</h3>
+                        <div class="component-preview">
+                            <div style="display: flex; flex-direction: column; gap: 12px;">
+                                <div style="display: flex; gap: 12px; align-items: center;">
+                                    <div class="skeleton-avatar" style="width: 40px; height: 40px;"></div>
+                                    <div style="flex: 1;">
+                                        <div class="skeleton-line" style="width: 70%; height: 14px; margin-bottom: 6px;"></div>
+                                        <div class="skeleton-line" style="width: 50%; height: 12px;"></div>
+                                    </div>
+                                </div>
+                                <div style="display: flex; gap: 12px; align-items: center;">
+                                    <div class="skeleton-avatar" style="width: 40px; height: 40px;"></div>
+                                    <div style="flex: 1;">
+                                        <div class="skeleton-line" style="width: 65%; height: 14px; margin-bottom: 6px;"></div>
+                                        <div class="skeleton-line" style="width: 45%; height: 12px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="component-code">&lt;SkeletonList items={2} /&gt;</div>
                     </div>
                 </div>
             </div>
