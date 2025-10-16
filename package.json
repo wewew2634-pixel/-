@@ -1,0 +1,56 @@
+{
+  "name": "jjikmeok",
+  "version": "0.1.0",
+  "private": true,
+  "description": "찍먹 - B2B2C mission-based short-form video platform connecting local merchants with micro/nano influencers",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "type-check": "tsc --noEmit",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,md}\""
+  },
+  "dependencies": {
+    "next": "^15.0.3",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "typescript": "^5.3.3",
+    "@types/node": "^20.10.6",
+    "@types/react": "^18.2.46",
+    "@types/react-dom": "^18.2.18",
+    "tailwindcss": "^3.4.0",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
+    "tailwind-merge": "^2.2.0",
+    "zustand": "^4.4.7",
+    "mapbox-gl": "^3.1.0",
+    "@mapbox/mapbox-gl-geocoder": "^5.0.2",
+    "@types/mapbox-gl": "^3.1.0",
+    "framer-motion": "^10.18.0",
+    "date-fns": "^3.0.6",
+    "zod": "^3.22.4",
+    "react-hook-form": "^7.49.3",
+    "@hookform/resolvers": "^3.3.4",
+    "axios": "^1.6.5",
+    "sharp": "^0.33.1",
+    "@vercel/analytics": "^1.1.1",
+    "@serwist/next": "^9.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.56.0",
+    "eslint-config-next": "^15.0.3",
+    "prettier": "^3.1.1",
+    "prettier-plugin-tailwindcss": "^0.5.10",
+    "@tailwindcss/typography": "^0.5.10",
+    "@tailwindcss/forms": "^0.5.7",
+    "@tailwindcss/container-queries": "^0.1.1"
+  },
+  "engines": {
+    "node": ">=18.17.0",
+    "pnpm": ">=8.0.0"
+  },
+  "packageManager": "pnpm@8.15.1"
+}

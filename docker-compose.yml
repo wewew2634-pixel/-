@@ -1,0 +1,207 @@
+version: '3.8'
+
+services:
+  # Next.js Web Application
+  web:
+    build: 
+      context: ./apps/web
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_API_BASE=http://localhost:8000
+    volumes:
+      - ./apps/web:/app
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      - api
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - jjikmeok-network
+
+  # FastAPI Backend
+  api:
+    build:
+      context: ./services/api
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONPATH=/app
+      - DATABASE_URL=sqlite:///./jjikmeok.db
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-mock_key_for_development}
+      - ASSIGN_EXPIRE_MIN=20
+      - RESPONSES_MODEL=gpt-4
+      - REALTIME_MODEL=gpt-4-audio-preview
+    volumes:
+      - ./services/api:/app
+      - api_uploads:/app/uploads
+      - api_data:/app/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - jjikmeok-network
+
+  # Redis for Rate Limiting (Optional - can be added later)
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - jjikmeok-network
+    profiles:
+      - redis
+
+  # MinIO for S3-compatible storage (Optional)
+  minio:
+    image: minio/minio:latest
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin123
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio_data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    networks:
+      - jjikmeok-network
+    profiles:
+      - storage
+
+  # ComfyUI for Advanced AI Processing (Optional)
+  comfyui:
+    image: yanwk/comfyui-boot:latest
+    ports:
+      - "8188:8188"
+    volumes:
+      - comfyui_data:/root
+    environment:
+      - CLI_ARGS=--listen 0.0.0.0 --port 8188
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    networks:
+      - jjikmeok-network
+    profiles:
+      - comfyui
+
+volumes:
+  api_uploads:
+    driver: local
+  api_data:
+    driver: local
+  redis_data:
+    driver: local
+  minio_data:
+    driver: local
+  comfyui_data:
+    driver: local
+
+networks:
+  jjikmeok-network:
+    driver: bridge
+
+# Development overrides
+# Use: docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
+---
+version: '3.8'
+
+# docker-compose.dev.yml (development overrides)
+services:
+  web:
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_API_BASE=http://localhost:8000
+    volumes:
+      - ./apps/web:/app
+      - /app/node_modules
+      - /app/.next
+    command: npm run dev
+
+  api:
+    environment:
+      - PYTHONPATH=/app
+      - DEBUG=True
+    volumes:
+      - ./services/api:/app
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
+# Production overrides  
+# Use: docker-compose -f docker-compose.yml -f docker-compose.prod.yml up
+---
+version: '3.8'
+
+# docker-compose.prod.yml (production overrides)
+services:
+  web:
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_BASE=https://api.jjikmeok.com
+    command: npm start
+    restart: unless-stopped
+
+  api:
+    environment:
+      - DEBUG=False
+      - DATABASE_URL=postgresql://user:pass@db:5432/jjikmeok
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --workers 4
+    restart: unless-stopped
+
+  # PostgreSQL for Production
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_DB=jjikmeok
+      - POSTGRES_USER=jjikmeok
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U jjikmeok"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Nginx Reverse Proxy
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/ssl/certs
+    depends_on:
+      - web
+      - api
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+    driver: local

@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>찍먹(JJIKMEOK) UX/UI Design System - Live Preview</title>
+    <style>
+        /* Design System Variables */
+        :root {
+            /* Brand Colors */
+            --jjik-primary: #FF6B35;
+            --jjik-primary-light: #FF8C5F;
+            --jjik-primary-dark: #E55A28;
+            --jjik-secondary: #4ECDC4;
+            --jjik-secondary-light: #7FE0D9;
+            --jjik-secondary-dark: #3AB6AD;
+            --jjik-accent: #FFE66D;
+            --jjik-accent-dark: #F5D942;
+            
+            /* Status Colors */
+            --jjik-success: #00C48C;
+            --jjik-warning: #FFA94D;
+            --jjik-danger: #FF6B6B;
+            --jjik-info: #4A90E2;
+            
+            /* Neutral Colors */
+            --jjik-bg-primary: #0A0E1A;
+            --jjik-bg-secondary: #131825;
+            --jjik-bg-elevated: #1A2234;
+            --jjik-text-primary: #FFFFFF;
+            --jjik-text-secondary: #B0B8C5;
+            --jjik-text-tertiary: #6B7280;
+            --jjik-border: rgba(255, 255, 255, 0.08);
+            --jjik-border-hover: rgba(255, 107, 53, 0.3);
+            
+            /* Spacing */
+            --space-4: 16px;
+            --space-6: 24px;
+            --padding-page: 20px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Pretendard Variable', sans-serif;
+            background: var(--jjik-bg-primary);
+            color: var(--jjik-text-primary);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, var(--jjik-primary), var(--jjik-secondary));
+            border-radius: var(--radius-lg);
+        }
+        
+        h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: white;
+        }
+        
+        .subtitle {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 24px;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            font-size: 14px;
+            color: white;
+            backdrop-filter: blur(10px);
+        }
+        
+        .progress {
+            background: var(--jjik-bg-elevated);
+            border: 1px solid var(--jjik-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin-bottom: 40px;
+        }
+        
+        .progress h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: var(--jjik-primary);
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--jjik-bg-secondary);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--jjik-primary), var(--jjik-secondary));
+            transition: width 0.5s ease;
+        }
+        
+        .progress-text {
+            color: var(--jjik-text-secondary);
+            font-size: 14px;
+        }
+        
+        .section {
+            margin-bottom: 60px;
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        
+        .section-header h2 {
+            font-size: 32px;
+            font-weight: 700;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .badge-complete {
+            background: rgba(0, 196, 140, 0.15);
+            color: var(--jjik-success);
+            border: 1px solid rgba(0, 196, 140, 0.3);
+        }
+        
+        .badge-in-progress {
+            background: rgba(255, 169, 77, 0.15);
+            color: var(--jjik-warning);
+            border: 1px solid rgba(255, 169, 77, 0.3);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+        
+        .card {
+            background: var(--jjik-bg-secondary);
+            border: 1px solid var(--jjik-border);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            border-color: var(--jjik-border-hover);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+        
+        .card h3 {
+            font-size: 20px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .card-icon {
+            font-size: 24px;
+        }
+        
+        .card-list {
+            list-style: none;
+        }
+        
+        .card-list li {
+            padding: 8px 0;
+            color: var(--jjik-text-secondary);
+            border-bottom: 1px solid var(--jjik-border);
+            font-size: 14px;
+        }
+        
+        .card-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .card-list li::before {
+            content: "✓";
+            color: var(--jjik-success);
+            margin-right: 8px;
+            font-weight: bold;
+        }
+        
+        .phone-preview {
+            width: 375px;
+            height: 812px;
+            background: var(--jjik-bg-primary);
+            border: 8px solid var(--jjik-bg-elevated);
+            border-radius: 40px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+        
+        .phone-notch {
+            width: 180px;
+            height: 30px;
+            background: var(--jjik-bg-primary);
+            border-radius: 0 0 20px 20px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 10;
+        }
+        
+        .mockup-screen {
+            padding: 20px;
+            height: calc(100% - 30px);
+            overflow-y: auto;
+        }
+        
+        .mockup-screen::-webkit-scrollbar {
+            width: 4px;
+        }
+        
+        .mockup-screen::-webkit-scrollbar-thumb {
+            background: var(--jjik-border);
+            border-radius: 2px;
+        }
+        
+        .splash-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+            animation: fadeIn 1s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .logo {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--jjik-primary), var(--jjik-secondary));
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            margin-bottom: 24px;
+            animation: scaleIn 0.6s ease-out;
+        }
+        
+        @keyframes scaleIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        
+        .loading-bar {
+            width: 120px;
+            height: 4px;
+            background: var(--jjik-border);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 32px;
+        }
+        
+        .loading-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--jjik-primary), var(--jjik-secondary));
+            animation: loading 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes loading {
+            0% { width: 0%; margin-left: 0%; }
+            50% { width: 50%; margin-left: 25%; }
+            100% { width: 0%; margin-left: 100%; }
+        }
+        
+        .spec-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .spec-table th,
+        .spec-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--jjik-border);
+        }
+        
+        .spec-table th {
+            background: var(--jjik-bg-elevated);
+            color: var(--jjik-primary);
+            font-weight: 600;
+        }
+        
+        .spec-table td {
+            color: var(--jjik-text-secondary);
+        }
+        
+        .color-swatch {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            border: 2px solid var(--jjik-border);
+            display: inline-block;
+            margin-right: 8px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--jjik-text-tertiary);
+            border-top: 1px solid var(--jjik-border);
+            margin-top: 80px;
+        }
+        
+        .auto-refresh {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--jjik-primary);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 24px;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 4px 16px rgba(255, 107, 53, 0.4);
+            animation: pulse-shadow 2s infinite;
+        }
+        
+        @keyframes pulse-shadow {
+            0%, 100% {
+                box-shadow: 0 4px 16px rgba(255, 107, 53, 0.4);
+            }
+            50% {
+                box-shadow: 0 4px 24px rgba(255, 107, 53, 0.6);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎨 찍먹 UX/UI Design System</h1>
+            <p class="subtitle">B2B2C Mission-Based Short-Form Video Platform</p>
+            <span class="status-badge">🚀 Live Design Process - Updating in Real-Time</span>
+        </header>
+
+        <div class="progress">
+            <h2>📊 전체 디자인 진행 상황</h2>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 100%;"></div>
+            </div>
+            <p class="progress-text">🎉 100% Complete - Creator App ✅ | Merchant App ✅ | 총 65+ 화면 완성!</p>
+        </div>
+
+        <div class="progress">
+            <h2>⚡ Phase 1: Foundation 구현 진행 상황</h2>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 75%;"></div>
+            </div>
+            <p class="progress-text">🚀 75% Complete - Design System ✅ | Component Library ✅ | Project Structure ✅ | State Management ⏳</p>
+        </div>
+        
+        <div style="text-align: center; margin: 32px 0; padding: 24px; background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(78, 205, 196, 0.1)); border: 1px solid var(--jjik-border); border-radius: 16px;">
+            <h3 style="font-size: 24px; margin-bottom: 16px; color: var(--jjik-primary);">🎨 인터랙티브 컴포넌트 쇼케이스</h3>
+            <p style="color: var(--jjik-text-secondary); margin-bottom: 16px;">실제 구현된 모든 컴포넌트를 확인하세요!</p>
+            <a href="/component-showcase.html" style="display: inline-block; padding: 12px 32px; background: var(--jjik-primary); color: white; border-radius: 12px; text-decoration: none; font-weight: 600; box-shadow: 0 4px 16px rgba(255, 107, 53, 0.3); transition: all 0.3s;">
+                컴포넌트 쇼케이스 보기 →
+            </a>
+        </div>
+
+        <!-- Implementation Progress Section -->
+        <div class="section">
+            <div class="section-header">
+                <h2>⚡ Phase 1: Foundation 구현 현황</h2>
+                <span class="badge badge-in-progress">진행중</span>
+            </div>
+            
+            <div class="grid">
+                <div class="card">
+                    <h3><span class="card-icon">✅</span>Phase 1.1: Design Tokens</h3>
+                    <ul class="card-list">
+                        <li>globals.css - CSS Variables 완성 (9KB)</li>
+                        <li>모든 색상/spacing/typography 토큰화</li>
+                        <li>애니메이션 & 이징 함수 정의</li>
+                        <li>다크 테마 기본 설정</li>
+                    </ul>
+                    <div style="margin-top: 16px; padding: 12px; background: rgba(0, 196, 140, 0.1); border-radius: 8px; border: 1px solid rgba(0, 196, 140, 0.3);">
+                        <strong style="color: #00C48C;">✅ 100% 완료</strong>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3><span class="card-icon">✅</span>Phase 1.2: Component Library</h3>
+                    <ul class="card-list">
+                        <li>Button.tsx - 5가지 variants (primary/secondary/ghost/danger/success)</li>
+                        <li>Card.tsx - 서브컴포넌트 5개 (Header/Title/Description/Content/Footer)</li>
+                        <li>Input.tsx - Password toggle, Search input, Textarea</li>
+                        <li>Badge.tsx - Status/Platform/Count/Verified 특수 badges</li>
+                        <li>utils.ts - cn() + 20+ utility functions</li>
+                        <li>✨ 인터랙티브 쇼케이스 페이지 (component-showcase.html)</li>
+                    </ul>
+                    <div style="margin-top: 16px; padding: 12px; background: rgba(0, 196, 140, 0.1); border-radius: 8px; border: 1px solid rgba(0, 196, 140, 0.3);">
+                        <strong style="color: #00C48C;">✅ 100% 완료</strong> - 모든 기본 컴포넌트 + 실제 화면 구현 완료
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3><span class="card-icon">✅</span>Phase 1.3: Project Structure</h3>
+                    <ul class="card-list">
+                        <li>Next.js 15 App Router 설정 (layout.tsx, page.tsx)</li>
+                        <li>TypeScript 엄격 모드 설정 (tsconfig.json)</li>
+                        <li>폴더 구조 완성 (app/, components/, lib/, types/, hooks/, store/)</li>
+                        <li>실제 화면 구현 (Splash, Onboarding, Login)</li>
+                        <li>타입 정의 완료 (8KB+ types/index.ts)</li>
+                        <li>환경 변수 템플릿 (.env.example)</li>
+                        <li>Next.js 설정 (next.config.js, postcss.config.js)</li>
+                    </ul>
+                    <div style="margin-top: 16px; padding: 12px; background: rgba(0, 196, 140, 0.1); border-radius: 8px; border: 1px solid rgba(0, 196, 140, 0.3);">
+                        <strong style="color: #00C48C;">✅ 100% 완료</strong>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3><span class="card-icon">✅</span>Phase 1.4: Tailwind Setup</h3>
+                    <ul class="card-list">
+                        <li>tailwind.config.ts - 커스텀 토큰 확장</li>
+                        <li>모든 design system 값 Tailwind에 매핑</li>
+                        <li>CVA (class-variance-authority) 설정</li>
+                        <li>clsx + tailwind-merge 통합</li>
+                    </ul>
+                    <div style="margin-top: 16px; padding: 12px; background: rgba(0, 196, 140, 0.1); border-radius: 8px; border: 1px solid rgba(0, 196, 140, 0.3);">
+                        <strong style="color: #00C48C;">✅ 100% 완료</strong>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3><span class="card-icon">⏳</span>Phase 1.5: State Management</h3>
+                    <ul class="card-list">
+                        <li>Zustand store 설정</li>
+                        <li>User auth state</li>
+                        <li>Global UI state (modals, toasts)</li>
+                        <li>Persistent storage</li>
+                    </ul>
+                    <div style="margin-top: 16px; padding: 12px; background: rgba(107, 114, 128, 0.1); border-radius: 8px; border: 1px solid rgba(107, 114, 128, 0.3);">
+                        <strong style="color: #6B7280;">⏳ 대기중</strong>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3><span class="card-icon">📦</span>Dependencies</h3>
+                    <ul class="card-list">
+                        <li>Next.js 15 + React 19</li>
+                        <li>TypeScript 5.3+</li>
+                        <li>Tailwind CSS 3.4+</li>
+                        <li>Zustand, Mapbox GL, Framer Motion</li>
+                        <li>package.json 완성 ✅</li>
+                    </ul>
+                    <div style="margin-top: 16px; padding: 12px; background: rgba(0, 196, 140, 0.1); border-radius: 8px; border: 1px solid rgba(0, 196, 140, 0.3);">
+                        <strong style="color: #00C48C;">✅ 준비 완료</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Creator App Section -->
+        <div class="section">
+            <div class="section-header">
+                <h2>📱 Creator App Design</h2>
+                <span class="badge badge-complete">완료</span>
+            </div>
+            
+            <div class="grid">
+                <div class="card">
+                    <h3><span class="card-icon">🎬</span>인증 & 온보딩</h3>
+                    <ul class="card-list">
+                        <li>Splash Screen (1.5초 애니메이션)</li>
+                        <li>Onboarding Flow (3 화면)</li>
+                        <li>TikTok/YouTube OAuth 로그인</li>
+                        <li>게스트 모드</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3><span class="card-icon">👤</span>프로필 생성</h3>
+                    <ul class="card-list">
+                        <li>Step 1: 기본 정보 (OAuth 자동 입력)</li>
+                        <li>Step 2: SNS 계정 + 통계 (OCR 검증)</li>
+                        <li>Step 3: 카테고리 + 위치 선택</li>
+                        <li>Step 4: 포트폴리오 + AI 분석</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3><span class="card-icon">📦</span>Tab 1: 체험</h3>
+                    <ul class="card-list">
+                        <li>승인 대기 상태</li>
+                        <li>빈 상태 (Tip 카드)</li>
+                        <li>오퍼 리스트 (새/진행중/완료)</li>
+                        <li>오퍼 상세 + 수락/거절</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3><span class="card-icon">📹</span>Tab 2: 촬영</h3>
+                    <ul class="card-list">
+                        <li>Shot Coach (실시간 가이드)</li>
+                        <li>15초 녹화 + 프롬프트 시퀀스</li>
+                        <li>AI 분석 (85/100 점수)</li>
+                        <li>Instagram 업로드 + 검증</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3><span class="card-icon">💰</span>Tab 3: 수익</h3>
+                    <ul class="card-list">
+                        <li>월별 수익 대시보드</li>
+                        <li>정산 예정/완료 타임라인</li>
+                        <li>카테고리별 통계</li>
+                        <li>출금 신청 플로우</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3><span class="card-icon">⚙️</span>Tab 4: MY</h3>
+                    <ul class="card-list">
+                        <li>프로필 대시보드 (통계)</li>
+                        <li>프로필 편집</li>
+                        <li>설정 (알림/계정/정산)</li>
+                        <li>연결된 SNS 관리</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Merchant App Section -->
+        <div class="section">
+            <div class="section-header">
+                <h2>🏪 Merchant App Design</h2>
+                <span class="badge badge-complete">완료</span>
+            </div>
+            
+            <div class="grid">
+                <div class="card">
+                    <h3><span class="card-icon">🎯</span>인증 & 온보딩</h3>
+                    <ul class="card-list">
+                        <li>Splash Screen</li>
+                        <li>Business 온보딩 (3 screens)</li>
+                        <li>사업자 인증 플로우 (3 steps)</li>
+                        <li>로그인 (Email/Social)</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3><span class="card-icon">🗺️</span>Tab 1: 검색</h3>
+                    <ul class="card-list">
+                        <li>Mapbox 지도 검색 (핵심 차별화)</li>
+                        <li>위치 기반 크리에이터 발견</li>
+                        <li>고급 필터 (반경/카테고리/예산)</li>
+                        <li>크리에이터 프로필 상세 + 포트폴리오</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3><span class="card-icon">✉️</span>Tab 2: 오퍼</h3>
+                    <ul class="card-list">
+                        <li>오퍼 생성 (4단계 플로우)</li>
+                        <li>오퍼 관리 대시보드 (진행/대기/완료)</li>
+                        <li>진행 중인 미션 실시간 추적</li>
+                        <li>완료된 미션 성과 + 크리에이터 평가</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3><span class="card-icon">📊</span>Tab 3: 분석</h3>
+                    <ul class="card-list">
+                        <li>캠페인 성과 차트 (6개월 추이)</li>
+                        <li>ROI 계산 + 카테고리별 분석</li>
+                        <li>조회수/참여도/인구통계 추적</li>
+                        <li>크리에이터 성과 비교</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3><span class="card-icon">🏢</span>Tab 4: MY</h3>
+                    <ul class="card-list">
+                        <li>비즈니스 프로필 + 통계</li>
+                        <li>정산 관리 + 계좌 설정</li>
+                        <li>사업자 정보 수정</li>
+                        <li>설정 (알림/결제/계정)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Shared Components -->
+        <div class="section">
+            <div class="section-header">
+                <h2>🔄 공통 컴포넌트</h2>
+                <span class="badge badge-complete">완료</span>
+            </div>
+            
+            <div class="grid">
+                <div class="card">
+                    <h3><span class="card-icon">🔔</span>알림 센터</h3>
+                    <ul class="card-list">
+                        <li>실시간 알림 스트림</li>
+                        <li>날짜별 그룹핑</li>
+                        <li>읽음/안읽음 상태 관리</li>
+                        <li>알림 설정 관리</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3><span class="card-icon">💬</span>메시징</h3>
+                    <ul class="card-list">
+                        <li>1:1 채팅 인터페이스</li>
+                        <li>파일 첨부 기능</li>
+                        <li>읽음 확인</li>
+                        <li>푸시 알림 연동</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3><span class="card-icon">🔍</span>검색</h3>
+                    <ul class="card-list">
+                        <li>통합 검색 인터페이스</li>
+                        <li>자동완성</li>
+                        <li>최근 검색어 저장</li>
+                        <li>인기 검색어</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3><span class="card-icon">⚡</span>인터랙션</h3>
+                    <ul class="card-list">
+                        <li>Pull to Refresh</li>
+                        <li>Swipe Actions (삭제/완료)</li>
+                        <li>Toast Notifications</li>
+                        <li>Loading States + Skeletons</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h3><span class="card-icon">📱</span>반응형</h3>
+                    <ul class="card-list">
+                        <li>Mobile (375px - 428px)</li>
+                        <li>Tablet (768px+) - 2단 레이아웃</li>
+                        <li>Desktop (1024px+) - 3단 레이아웃</li>
+                        <li>Safe Area 대응</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Phone Preview -->
+        <div class="section">
+            <div class="section-header">
+                <h2>📱 Live Preview - Splash Screen</h2>
+            </div>
+            
+            <div class="phone-preview">
+                <div class="phone-notch"></div>
+                <div class="mockup-screen">
+                    <div class="splash-screen">
+                        <div class="logo">찍</div>
+                        <h2 style="margin-bottom: 8px;">찍먹</h2>
+                        <p style="color: var(--jjik-text-secondary); font-size: 18px;">로컬 체험으로 수익 만들기</p>
+                        <div class="loading-bar">
+                            <div class="loading-fill"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Design System Colors -->
+        <div class="section">
+            <div class="section-header">
+                <h2>🎨 Color System</h2>
+            </div>
+            
+            <table class="spec-table">
+                <thead>
+                    <tr>
+                        <th>Color</th>
+                        <th>Variable</th>
+                        <th>Hex</th>
+                        <th>Usage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="color-swatch" style="background: #FF6B35;"></span></td>
+                        <td>--jjik-primary</td>
+                        <td>#FF6B35</td>
+                        <td>Primary actions, CTAs</td>
+                    </tr>
+                    <tr>
+                        <td><span class="color-swatch" style="background: #4ECDC4;"></span></td>
+                        <td>--jjik-secondary</td>
+                        <td>#4ECDC4</td>
+                        <td>Trust, secondary actions</td>
+                    </tr>
+                    <tr>
+                        <td><span class="color-swatch" style="background: #FFE66D;"></span></td>
+                        <td>--jjik-accent</td>
+                        <td>#FFE66D</td>
+                        <td>Rewards, highlights</td>
+                    </tr>
+                    <tr>
+                        <td><span class="color-swatch" style="background: #00C48C;"></span></td>
+                        <td>--jjik-success</td>
+                        <td>#00C48C</td>
+                        <td>Success states, approved</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Summary Stats -->
+        <div class="section">
+            <div class="section-header">
+                <h2>📈 디자인 완성 통계</h2>
+            </div>
+            
+            <table class="spec-table">
+                <thead>
+                    <tr>
+                        <th>구분</th>
+                        <th>화면 수</th>
+                        <th>상태</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Creator App</td>
+                        <td>30+ screens</td>
+                        <td><span class="badge badge-complete">완료</span></td>
+                    </tr>
+                    <tr>
+                        <td>Merchant App</td>
+                        <td>25+ screens</td>
+                        <td><span class="badge badge-complete">완료</span></td>
+                    </tr>
+                    <tr>
+                        <td>Shared Components</td>
+                        <td>10+ screens</td>
+                        <td><span class="badge badge-complete">완료</span></td>
+                    </tr>
+                    <tr style="background: var(--jjik-bg-elevated); font-weight: bold;">
+                        <td>총 계</td>
+                        <td>65+ screens</td>
+                        <td><span class="badge badge-complete">100% 완성</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <footer>
+            <p>🎉 디자인 시스템 완성! 총 65+ 화면 | 2개 앱 (Creator + Merchant)</p>
+            <p style="margin-top: 8px;">🚀 Last Updated: <span id="timestamp"></span></p>
+            <p style="margin-top: 8px;">JJIKMEOK Design System v1.0.0 - Made with ❤️ by Claude</p>
+        </footer>
+
+        <div class="auto-refresh">
+            🔄 Auto-refreshing every 5s
+        </div>
+    </div>
+
+    <script>
+        // Update timestamp
+        function updateTimestamp() {
+            const now = new Date();
+            document.getElementById('timestamp').textContent = now.toLocaleString('ko-KR');
+        }
+        updateTimestamp();
+        
+        // Auto refresh every 5 seconds
+        setInterval(() => {
+            location.reload();
+        }, 5000);
+    </script>
+</body>
+</html>
