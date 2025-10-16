@@ -14,7 +14,7 @@ interface AuthState {
   
   // User
   user: User | CreatorProfile | MerchantProfile | null;
-  role: 'creator' | 'merchant' | 'guest' | null;
+  role: 'creator' | 'merchant' | 'guest' | 'admin' | null;
   
   // Guest Mode
   isGuestMode: boolean;

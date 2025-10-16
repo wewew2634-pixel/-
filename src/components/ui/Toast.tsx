@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useUIStore, type Toast as ToastType } from '@/store/ui.store';
 import { cn } from '@/lib/utils';
 

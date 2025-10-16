@@ -56,7 +56,6 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
     ref
   ) => {
     const [showPassword, setShowPassword] = useState(false);
-    const [isFocused, setIsFocused] = useState(false);
 
     const inputType = showPasswordToggle && showPassword ? 'text' : type;
     const effectiveVariant = error ? 'error' : variant;
@@ -87,8 +86,6 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             )}
             ref={ref}
             disabled={disabled}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
             {...props}
           />
           

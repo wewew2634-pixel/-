@@ -25,15 +25,10 @@ export type { CardProps } from './Card';
 export { Badge, badgeVariants } from './Badge';
 export type { BadgeProps } from './Badge';
 
-export { Avatar, AvatarImage, AvatarFallback } from './Avatar';
-export type { AvatarProps } from './Avatar';
-
 // Feedback Components
 export { ToastContainer } from './Toast';
-export type { Toast, ToastType } from './Toast';
 
 export { Modal } from './Modal';
-export type { Modal as ModalType, ModalSize } from './Modal';
 
 // Loading Components
 export {

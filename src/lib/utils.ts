@@ -121,13 +121,13 @@ export function validateBusinessNumber(num: string): boolean {
   let sum = 0;
   
   for (let i = 0; i < 9; i++) {
-    sum += parseInt(cleaned[i]) * weights[i];
+    sum += parseInt(cleaned[i] || '0') * (weights[i] || 0);
   }
   
-  sum += Math.floor((parseInt(cleaned[8]) * 5) / 10);
+  sum += Math.floor((parseInt(cleaned[8] || '0') * 5) / 10);
   const checkDigit = (10 - (sum % 10)) % 10;
   
-  return checkDigit === parseInt(cleaned[9]);
+  return checkDigit === parseInt(cleaned[9] || '0');
 }
 
 /**

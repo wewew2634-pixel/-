@@ -102,7 +102,7 @@ export const useUIStore = create<UIState>((set, get) => ({
   isPageTransitioning: false,
 
   // Global Loading
-  setGlobalLoading: (isLoading, message = null) => {
+  setGlobalLoading: (isLoading, message = undefined) => {
     set({ isGlobalLoading: isLoading, loadingMessage: message });
   },
 
@@ -186,7 +186,7 @@ export const useUIStore = create<UIState>((set, get) => ({
       const newModals = state.modals.filter((m) => m.id !== id);
       return {
         modals: newModals,
-        activeModalId: newModals.length > 0 ? newModals[newModals.length - 1].id : null,
+        activeModalId: newModals.length > 0 ? newModals[newModals.length - 1]?.id : undefined,
       };
     });
   },
@@ -220,7 +220,7 @@ export const useUIStore = create<UIState>((set, get) => ({
 
   // Page Transition
   setPageTransitioning: (isTransitioning) => {
-    set({ isPageTransitioning });
+    set({ isPageTransitioning: isTransitioning });
   },
 }));
 

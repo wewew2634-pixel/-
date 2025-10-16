@@ -48,6 +48,10 @@ export default function OnboardingPage() {
 
   const currentContent = ONBOARDING_STEPS[currentStep];
 
+  if (!currentContent) {
+    return null;
+  }
+
   return (
     <div className="min-h-screen bg-bg-primary flex flex-col px-5 py-6 animate-fade-in">
       {/* Progress Indicators */}

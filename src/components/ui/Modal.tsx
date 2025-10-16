@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { useUIStore } from '@/store/ui.store';
 import { cn } from '@/lib/utils';
