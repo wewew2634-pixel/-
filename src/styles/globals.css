@@ -1,0 +1,458 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   JJIKMEOK (찍먹) Design System - CSS Variables
+   Version: 1.0.0
+   Last Updated: 2025-10-16
+   ============================================ */
+
+:root {
+  /* ============================================
+     Brand Colors
+     ============================================ */
+  --jjik-primary: #ff6b35;
+  --jjik-primary-light: #ff8c5f;
+  --jjik-primary-dark: #e55a28;
+  
+  --jjik-secondary: #4ecdc4;
+  --jjik-secondary-light: #7fe0d9;
+  --jjik-secondary-dark: #3ab6ad;
+  
+  --jjik-accent: #ffe66d;
+  --jjik-accent-dark: #f5d942;
+
+  /* ============================================
+     Status Colors
+     ============================================ */
+  --jjik-success: #00c48c;
+  --jjik-warning: #ffa94d;
+  --jjik-danger: #ff6b6b;
+  --jjik-info: #4a90e2;
+
+  /* ============================================
+     Neutral Colors (Dark Theme Base)
+     ============================================ */
+  --jjik-bg-primary: #0a0e1a;
+  --jjik-bg-secondary: #131825;
+  --jjik-bg-elevated: #1a2234;
+  
+  --jjik-text-primary: #ffffff;
+  --jjik-text-secondary: #b0b8c5;
+  --jjik-text-tertiary: #6b7280;
+  
+  --jjik-border: rgba(255, 255, 255, 0.08);
+  --jjik-border-hover: rgba(255, 107, 53, 0.3);
+
+  /* ============================================
+     Geo Map Colors
+     ============================================ */
+  --jjik-map-creator: #ff6b35;
+  --jjik-map-merchant: #4ecdc4;
+  --jjik-map-radius: rgba(78, 205, 196, 0.15);
+
+  /* ============================================
+     Social Platform Colors
+     ============================================ */
+  --social-tiktok: #000000;
+  --social-tiktok-hover: #222222;
+  --social-youtube: #ff0000;
+  --social-youtube-hover: #cc0000;
+
+  /* ============================================
+     Spacing System (8px base)
+     ============================================ */
+  --space-0: 0px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  
+  --padding-page: 20px;
+  --padding-card: 16px;
+  --padding-card-lg: 20px;
+  --gap-items: 12px;
+  --gap-sections: 24px;
+
+  /* ============================================
+     Border Radius
+     ============================================ */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
+  --radius-full: 9999px;
+
+  /* ============================================
+     Shadows
+     ============================================ */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.08);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.12);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.16);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.2);
+  --shadow-xl: 0 12px 24px rgba(0, 0, 0, 0.24);
+  
+  --shadow-primary: 0 4px 16px rgba(255, 107, 53, 0.3);
+  --shadow-primary-hover: 0 8px 24px rgba(255, 107, 53, 0.4);
+  --shadow-success: 0 4px 12px rgba(0, 196, 140, 0.3);
+  --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.3);
+
+  /* ============================================
+     Animation Duration
+     ============================================ */
+  --duration-instant: 100ms;
+  --duration-fast: 200ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
+
+  /* ============================================
+     Animation Easing
+     ============================================ */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* ============================================
+     Touch Targets (iOS HIG)
+     ============================================ */
+  --touch-min: 44px;
+  --touch-comfortable: 48px;
+  --touch-large: 56px;
+
+  /* ============================================
+     Z-Index Scale
+     ============================================ */
+  --z-base: 0;
+  --z-dropdown: 1000;
+  --z-sticky: 1100;
+  --z-fixed: 1200;
+  --z-modal-backdrop: 1300;
+  --z-modal: 1400;
+  --z-popover: 1500;
+  --z-toast: 1600;
+}
+
+/* ============================================
+   Base Styles
+   ============================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: 'Pretendard Variable', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  background: var(--jjik-bg-primary);
+  color: var(--jjik-text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ============================================
+   Accessibility
+   ============================================ */
+:focus-visible {
+  outline: 2px solid var(--jjik-primary);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (prefers-contrast: high) {
+  .card,
+  .btn {
+    border-width: 2px;
+  }
+}
+
+/* ============================================
+   Component Base Classes
+   ============================================ */
+
+/* Button Base */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  transition: all var(--duration-fast) var(--ease-out);
+  cursor: pointer;
+  user-select: none;
+  border: none;
+  outline: none;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-primary {
+  background: var(--jjik-primary);
+  color: white;
+  height: var(--touch-comfortable);
+  padding: 0 var(--space-6);
+  box-shadow: var(--shadow-primary);
+}
+
+.btn-primary:hover {
+  background: var(--jjik-primary-dark);
+  box-shadow: var(--shadow-primary-hover);
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--jjik-text-primary);
+  border: 1px solid var(--jjik-border);
+  height: var(--touch-comfortable);
+  padding: 0 var(--space-6);
+}
+
+.btn-ghost:hover {
+  border-color: var(--jjik-primary);
+  background: rgba(255, 107, 53, 0.08);
+}
+
+/* Card Base */
+.card {
+  background: var(--jjik-bg-secondary);
+  border: 1px solid var(--jjik-border);
+  border-radius: var(--radius-lg);
+  padding: var(--padding-card);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.card:hover {
+  border-color: var(--jjik-border-hover);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.card-elevated {
+  background: var(--jjik-bg-elevated);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Input Base */
+.input {
+  width: 100%;
+  height: var(--touch-comfortable);
+  padding: 0 var(--space-4);
+  background: var(--jjik-bg-secondary);
+  border: 1px solid var(--jjik-border);
+  border-radius: var(--radius-md);
+  color: var(--jjik-text-primary);
+  font-size: 15px;
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--jjik-primary);
+  box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+}
+
+.input::placeholder {
+  color: var(--jjik-text-tertiary);
+}
+
+/* Badge Base */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  height: 24px;
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.badge-success {
+  background: rgba(0, 196, 140, 0.15);
+  color: var(--jjik-success);
+  border: 1px solid rgba(0, 196, 140, 0.3);
+}
+
+.badge-warning {
+  background: rgba(255, 169, 77, 0.15);
+  color: var(--jjik-warning);
+  border: 1px solid rgba(255, 169, 77, 0.3);
+}
+
+.badge-danger {
+  background: rgba(255, 107, 107, 0.15);
+  color: var(--jjik-danger);
+  border: 1px solid rgba(255, 107, 107, 0.3);
+}
+
+.badge-info {
+  background: rgba(74, 144, 226, 0.15);
+  color: var(--jjik-info);
+  border: 1px solid rgba(74, 144, 226, 0.3);
+}
+
+/* Glass Effect */
+.glass {
+  background: rgba(19, 24, 37, 0.7);
+  backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: var(--shadow-glass);
+}
+
+.glass-light {
+  background: rgba(26, 34, 52, 0.5);
+  backdrop-filter: blur(16px) saturate(120%);
+}
+
+/* ============================================
+   Utility Classes
+   ============================================ */
+.safe-top {
+  padding-top: max(20px, env(safe-area-inset-top));
+}
+
+.safe-bottom {
+  padding-bottom: max(20px, env(safe-area-inset-bottom));
+}
+
+.container-page {
+  padding: var(--padding-page);
+  max-width: 428px;
+  margin: 0 auto;
+}
+
+/* ============================================
+   Animations
+   ============================================ */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scale-in {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounce-in {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+  70% {
+    transform: scale(0.9);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes loading-bar {
+  0% {
+    width: 0%;
+    margin-left: 0%;
+  }
+  50% {
+    width: 50%;
+    margin-left: 25%;
+  }
+  100% {
+    width: 0%;
+    margin-left: 100%;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 600ms var(--ease-out);
+}
+
+.animate-scale-in {
+  animation: scale-in 400ms var(--ease-out);
+}
+
+.animate-slide-up {
+  animation: slide-up 300ms var(--ease-out);
+}
+
+.animate-bounce-in {
+  animation: bounce-in 700ms var(--ease-spring);
+}
+
+.animate-loading-bar {
+  animation: loading-bar 1.5s ease-in-out infinite;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
