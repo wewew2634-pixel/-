@@ -11,14 +11,14 @@ import '@/styles/globals.css';
 
 export const metadata: Metadata = {
   title: {
-    default: 'JJIKMEOK - Create, Earn, Explore',
-    template: '%s | JJIKMEOK',
+    default: 'ZZMUK - Create, Earn, Explore',
+    template: '%s | ZZMUK',
   },
   description: 'Mission-based short-form video platform connecting local businesses with micro-influencers.',
-  keywords: ['찍먹', 'JJIKMEOK', '크리에이터', '인플루언서', '로컬 마케팅', '숏폼', 'TikTok', 'YouTube', 'Instagram'],
-  authors: [{ name: 'JJIKMEOK Team' }],
-  creator: 'JJIKMEOK',
-  publisher: 'JJIKMEOK',
+  keywords: ['쯤먹', 'ZZMUK', '크리에이터', '인플루언서', '로컬 마케팅', '숏폼', 'TikTok', 'YouTube', 'Instagram'],
+  authors: [{ name: 'ZZMUK Team' }],
+  creator: 'ZZMUK',
+  publisher: 'ZZMUK',
   formatDetection: {
     email: false,
     address: false,
@@ -29,21 +29,21 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'ko_KR',
     url: '/',
-    title: 'JJIKMEOK - Create, Earn, Explore',
+    title: 'ZZMUK - Create, Earn, Explore',
     description: 'Mission-based short-form video platform',
-    siteName: 'JJIKMEOK',
+    siteName: 'ZZMUK',
     images: [
       {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'JJIKMEOK OG Image',
+        alt: 'ZZMUK OG Image',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'JJIKMEOK - Create, Earn, Explore',
+    title: 'ZZMUK - Create, Earn, Explore',
     description: 'Mission-based short-form video platform',
     images: ['/twitter-image.png'],
   },
