@@ -29,7 +29,7 @@ export default function LoginPage() {
       // Show success toast
       toast.success('TikTok 로그인 성공!', '환영합니다');
       
-      router.push('/creator/home');
+      router.push('/home');
     } catch (_error) {
       toast.error('로그인 실패', 'TikTok 로그인에 실패했습니다. 다시 시도해주세요.');
       setLoading(null);
@@ -45,7 +45,7 @@ export default function LoginPage() {
       
       toast.success('YouTube 로그인 성공!', '환영합니다');
       
-      router.push('/creator/home');
+      router.push('/home');
     } catch (_error) {
       toast.error('로그인 실패', 'YouTube 로그인에 실패했습니다. 다시 시도해주세요.');
       setLoading(null);
@@ -55,7 +55,7 @@ export default function LoginPage() {
   const handleGuestMode = () => {
     setGuestMode(true);
     toast.info('게스트 모드로 입장합니다', '일부 기능이 제한될 수 있습니다');
-    router.push('/creator/home?guest=true');
+    router.push('/home?guest=true');
   };
 
   return (

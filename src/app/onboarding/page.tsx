@@ -34,10 +34,12 @@ export default function OnboardingPage() {
   const [currentStep, setCurrentStep] = useState(0);
 
   const handleNext = () => {
+    console.log('handleNext called, currentStep:', currentStep);
     if (currentStep < ONBOARDING_STEPS.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
       // Complete onboarding
+      console.log('Navigating to login...');
       router.push('/auth/login');
     }
   };
@@ -90,7 +92,7 @@ export default function OnboardingPage() {
       </div>
 
       {/* Navigation Buttons */}
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-3 relative z-10">
         <Button
           variant="primary"
           size="lg"
