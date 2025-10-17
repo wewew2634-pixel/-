@@ -284,6 +284,15 @@ export const ONBOARDING_METADATA: Metadata = generateMetadata({
 });
 
 /**
+ * Splash page metadata
+ */
+export const SPLASH_METADATA: Metadata = generateMetadata({
+  title: 'ZZMUK',
+  description: '15초로 수익을 창출하세요. 로컬 크리에이터 플랫폼',
+  path: '/splash',
+});
+
+/**
  * Common metadata for creator home
  */
 export const CREATOR_HOME_METADATA: Metadata = generateMetadata({

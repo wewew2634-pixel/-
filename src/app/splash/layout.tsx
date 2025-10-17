@@ -1,6 +1,6 @@
-import { splashMetadata } from './metadata';
+import { SPLASH_METADATA } from '@/lib/metadata';
 
-export const metadata = splashMetadata;
+export const metadata = SPLASH_METADATA;
 
 export default function SplashLayout({
   children,
