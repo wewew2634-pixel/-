@@ -9,10 +9,10 @@ import '@/styles/globals.css';
 
 export const metadata: Metadata = {
   title: {
-    default: '찍먹 - 로컬 체험으로 수익 만들기',
-    template: '%s | 찍먹',
+    default: 'JJIKMEOK - Create, Earn, Explore',
+    template: '%s | JJIKMEOK',
   },
-  description: 'B2B2C 미션 기반 숏폼 영상 플랫폼. 로컬 비즈니스와 마이크로 인플루언서를 연결합니다.',
+  description: 'Mission-based short-form video platform connecting local businesses with micro-influencers.',
   keywords: ['찍먹', 'JJIKMEOK', '크리에이터', '인플루언서', '로컬 마케팅', '숏폼', 'TikTok', 'YouTube', 'Instagram'],
   authors: [{ name: 'JJIKMEOK Team' }],
   creator: 'JJIKMEOK',
@@ -27,22 +27,22 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'ko_KR',
     url: '/',
-    title: '찍먹 - 로컬 체험으로 수익 만들기',
-    description: 'B2B2C 미션 기반 숏폼 영상 플랫폼',
-    siteName: '찍먹',
+    title: 'JJIKMEOK - Create, Earn, Explore',
+    description: 'Mission-based short-form video platform',
+    siteName: 'JJIKMEOK',
     images: [
       {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: '찍먹 OG Image',
+        alt: 'JJIKMEOK OG Image',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: '찍먹 - 로컬 체험으로 수익 만들기',
-    description: 'B2B2C 미션 기반 숏폼 영상 플랫폼',
+    title: 'JJIKMEOK - Create, Earn, Explore',
+    description: 'Mission-based short-form video platform',
     images: ['/twitter-image.png'],
   },
   robots: {
