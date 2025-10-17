@@ -173,6 +173,10 @@ const config: Config = {
           '0%, 100%': { opacity: '1' },
           '50%': { opacity: '0.5' },
         },
+        'shimmer': {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(100%)' },
+        },
       },
       animation: {
         'fade-in': 'fade-in 600ms cubic-bezier(0.16, 1, 0.3, 1)',
@@ -183,6 +187,7 @@ const config: Config = {
         'loading-bar': 'loading-bar 1.5s ease-in-out infinite',
         'spin': 'spin 1s linear infinite',
         'pulse': 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'shimmer': 'shimmer 2s infinite',
       },
     },
   },

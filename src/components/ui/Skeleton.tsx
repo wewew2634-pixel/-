@@ -17,7 +17,7 @@ import { cn } from '@/lib/utils';
  */
 
 const skeletonVariants = cva(
-  'animate-pulse bg-gradient-to-r from-bg-tertiary via-bg-secondary to-bg-tertiary bg-[length:200%_100%]',
+  'relative overflow-hidden bg-bg-tertiary before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-bg-secondary/50 before:to-transparent',
   {
     variants: {
       variant: {

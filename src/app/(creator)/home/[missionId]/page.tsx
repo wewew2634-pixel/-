@@ -149,7 +149,7 @@ export default function MissionDetailPage() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </button>
-          <h1 className="text-lg font-semibold text-text-primary">미션 상세</h1>
+          <h1 className="text-lg md:text-xl font-semibold text-text-primary">미션 상세</h1>
         </div>
       </header>
 
@@ -360,12 +360,16 @@ export default function MissionDetailPage() {
               {mission.stats.completed}/{mission.stats.totalSlots} 완료
             </span>
           </div>
-          <div className="w-full bg-bg-tertiary rounded-full h-3">
+          <div className="w-full bg-bg-tertiary rounded-full h-3 overflow-hidden">
             <div
               className="bg-primary h-3 rounded-full transition-all duration-normal"
               style={{
                 width: `${(mission.stats.completed / mission.stats.totalSlots) * 100}%`,
               }}
+              role="progressbar"
+              aria-valuenow={mission.stats.completed}
+              aria-valuemin={0}
+              aria-valuemax={mission.stats.totalSlots}
             />
           </div>
           <div className="text-sm text-text-secondary">
@@ -449,3 +453,4 @@ export default function MissionDetailPage() {
     </div>
   );
 }
+

@@ -76,7 +76,7 @@ export const MissionCard = memo(React.forwardRef<HTMLDivElement, MissionCardProp
         className={cn(
           'group relative flex flex-col gap-4 rounded-xl border border-border bg-bg-secondary',
           'transition-all duration-normal',
-          !isDisabled && 'hover:shadow-lg hover:border-primary/30 cursor-pointer',
+          !isDisabled && 'hover:shadow-xl hover:shadow-primary/10 hover:border-primary/50 hover:-translate-y-1 cursor-pointer',
           isDisabled && 'opacity-50 cursor-not-allowed',
           isCompact ? 'p-3' : 'p-4',
           className
@@ -227,12 +227,16 @@ export const MissionCard = memo(React.forwardRef<HTMLDivElement, MissionCardProp
               {mission.stats.completed}/{mission.stats.totalSlots} 완료
             </span>
           </div>
-          <div className="w-full bg-bg-tertiary rounded-full h-2">
+          <div className="w-full bg-bg-tertiary rounded-full h-2 overflow-hidden">
             <div
               className="bg-primary h-2 rounded-full transition-all duration-normal"
               style={{
                 width: `${(mission.stats.completed / mission.stats.totalSlots) * 100}%`,
               }}
+              role="progressbar"
+              aria-valuenow={mission.stats.completed}
+              aria-valuemin={0}
+              aria-valuemax={mission.stats.totalSlots}
             />
           </div>
         </div>

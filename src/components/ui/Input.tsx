@@ -7,9 +7,9 @@ const inputVariants = cva(
   {
     variants: {
       variant: {
-        default: 'border-border bg-bg-secondary focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/20',
-        error: 'border-danger bg-bg-secondary focus-visible:border-danger focus-visible:ring-2 focus-visible:ring-danger/20',
-        success: 'border-success bg-bg-secondary focus-visible:border-success focus-visible:ring-2 focus-visible:ring-success/20',
+        default: 'border-border bg-bg-secondary focus-visible:border-primary focus-visible:ring-4 focus-visible:ring-primary/20 focus-visible:shadow-lg focus-visible:shadow-primary/20',
+        error: 'border-danger bg-bg-secondary focus-visible:border-danger focus-visible:ring-4 focus-visible:ring-danger/20 focus-visible:shadow-lg focus-visible:shadow-danger/20',
+        success: 'border-success bg-bg-secondary focus-visible:border-success focus-visible:ring-4 focus-visible:ring-success/20 focus-visible:shadow-lg focus-visible:shadow-success/20',
       },
       inputSize: {
         sm: 'h-10 text-sm',

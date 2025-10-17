@@ -17,7 +17,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
           !noPadding && 'p-4',
           elevated && 'bg-bg-elevated shadow-lg',
           !elevated && 'shadow-sm',
-          hoverable && 'hover:border-border-hover hover:shadow-md hover:-translate-y-[2px]',
+          hoverable && 'hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-1 cursor-pointer',
           className
         )}
         {...props}
