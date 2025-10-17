@@ -4,6 +4,7 @@ import { ToastContainer } from '@/components/ui/Toast';
 import { BannerProvider } from '@/components/ui/BannerProvider';
 import { Modal } from '@/components/ui/Modal';
 import { PerformanceOptimizer } from '@/components/PerformanceOptimizer';
+import { LiveToggle } from '@/components/dev/LiveToggle';
 import { JsonLd, generateOrganizationJsonLd } from '@/lib/metadata';
 import { pretendard } from './fonts';
 import '@/styles/globals.css';
@@ -104,6 +105,8 @@ export default function RootLayout({
         <Modal />
         {process.env.NODE_ENV === 'production' && <Analytics />}
         <PerformanceOptimizer />
+        {/* Live Design Preview Toggle - Development Tool */}
+        {process.env.NODE_ENV === 'development' && <LiveToggle />}
       </body>
     </html>
   );
