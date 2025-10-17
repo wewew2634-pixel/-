@@ -12,12 +12,12 @@ import React from 'react';
  * Base site configuration
  */
 export const SITE_CONFIG = {
-  name: 'JJIKMEOK',
-  title: 'JJIKMEOK - 숏폼으로 수익 창출하는 로컬 크리에이터 플랫폼',
+  name: 'ZZMUK',
+  title: 'ZZMUK - 숏폼으로 수익 창출하는 로컬 크리에이터 플랫폼',
   description: '15초 촬영으로 수익을 얻으세요. 주변 가게를 홍보하고 즉시 리워드를 받는 크리에이터 플랫폼',
-  url: process.env.NEXT_PUBLIC_SITE_URL || 'https://jjikmeok.com',
+  url: process.env.NEXT_PUBLIC_SITE_URL || 'https://zzmuk.com',
   ogImage: '/og-image.png',
-  twitterHandle: '@jjikmeok',
+  twitterHandle: '@zzmuk',
   locale: 'ko_KR',
   themeColor: '#10B981', // primary color
 } as const;
@@ -135,9 +135,9 @@ export function generateOrganizationJsonLd() {
     logo: `${SITE_CONFIG.url}/logo.png`,
     description: SITE_CONFIG.description,
     sameAs: [
-      'https://www.facebook.com/jjikmeok',
-      'https://www.instagram.com/jjikmeok',
-      'https://www.youtube.com/@jjikmeok',
+      'https://www.facebook.com/zzmuk',
+      'https://www.instagram.com/zzmuk',
+      'https://www.youtube.com/@zzmuk',
     ],
   };
 }
@@ -270,7 +270,7 @@ export function JsonLd({ data }: { data: Record<string, any> }): React.ReactElem
  */
 export const AUTH_METADATA: Metadata = generateMetadata({
   title: '로그인',
-  description: 'JJIKMEOK 크리에이터로 시작하세요',
+  description: 'ZZMUK 크리에이터로 시작하세요',
   noIndex: true, // Don't index auth pages
 });
 

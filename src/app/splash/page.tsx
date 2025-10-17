@@ -64,22 +64,10 @@ export default function SplashPage() {
           className="w-[120px] h-2 rounded-full bg-white/10 overflow-hidden"
         >
           <div 
-            className="h-full rounded-full bg-gradient-to-r from-accent to-primary"
-            style={{
-              animation: 'loading 1.5s ease-in-out infinite',
-              transformOrigin: 'left'
-            }}
+            className="h-full rounded-full bg-gradient-to-r from-accent to-primary animate-pulse origin-left scale-x-75"
           />
         </div>
       </main>
-      
-      <style jsx>{`
-        @keyframes loading {
-          0% { transform: scaleX(0.3); }
-          50% { transform: scaleX(0.7); }
-          100% { transform: scaleX(1); }
-        }
-      `}</style>
     </div>
   );
 }
