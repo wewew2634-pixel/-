@@ -178,10 +178,10 @@ export default function MissionDetailPage() {
 
         {/* Title & Description */}
         <div className="space-y-3">
-          <h2 className="text-xl font-bold text-text-primary">
+          <h2 className="text-lg md:text-xl font-bold text-text-primary">
             {mission.title}
           </h2>
-          <p className="text-base text-text-secondary leading-relaxed">
+          <p className="text-sm md:text-base text-text-secondary leading-relaxed">
             {mission.description}
           </p>
         </div>

@@ -54,7 +54,7 @@ export default function BookmarksPage() {
               </button>
               
               <div>
-                <h1 className="text-2xl md:text-3xl font-bold text-text-primary flex items-center gap-2">
+                <h1 className="text-xl md:text-2xl font-bold text-text-primary flex items-center gap-2">
                   <span>❤️</span>
                   북마크
                 </h1>
@@ -84,7 +84,7 @@ export default function BookmarksPage() {
           /* Empty State */
           <div className="text-center py-16 space-y-4 animate-fade-in">
             <div className="text-6xl animate-bounce-in">💔</div>
-            <h2 className="text-xl font-bold text-text-primary animate-slide-up">
+            <h2 className="text-lg md:text-xl font-bold text-text-primary animate-slide-up">
               북마크한 미션이 없습니다
             </h2>
             <p className="text-text-secondary">

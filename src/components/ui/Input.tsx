@@ -267,7 +267,8 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
             <button
               type="button"
               onClick={onClear}
-              className="hover:text-text-primary transition-colors"
+              className="p-1.5 -mr-1.5 hover:text-text-primary hover:bg-bg-tertiary transition-colors rounded-full"
+              aria-label="검색어 지우기"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

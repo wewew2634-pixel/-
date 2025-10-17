@@ -113,7 +113,7 @@ export default function CreatorHomePage() {
       <header className="sticky top-0 z-10 bg-bg-primary/95 backdrop-blur-md border-b border-border">
         <div className="max-w-screen-xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <h1 className="text-2xl md:text-3xl font-bold text-text-primary">
+            <h1 className="text-xl md:text-2xl font-bold text-text-primary">
               미션 피드
             </h1>
             <div className="px-3 py-1 rounded-full bg-primary/10 text-primary text-sm md:text-base font-semibold">
@@ -157,7 +157,7 @@ export default function CreatorHomePage() {
           /* Empty State */
           <div className="text-center py-16 space-y-4 animate-fade-in">
             <div className="text-6xl animate-bounce-in">🔍</div>
-            <h2 className="text-xl font-bold text-text-primary animate-slide-up">
+            <h2 className="text-lg md:text-xl font-bold text-text-primary animate-slide-up">
               미션을 찾을 수 없습니다
             </h2>
             <p className="text-text-secondary">
