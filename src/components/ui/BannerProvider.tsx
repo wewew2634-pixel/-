@@ -22,7 +22,8 @@ export function BannerProvider() {
   const banners = useUIStore((state) => state.banners);
   const dismissBanner = useUIStore((state) => state.dismissBanner);
 
-  if (banners.length === 0) return null;
+  // Guard against undefined or empty banners
+  if (!banners || banners.length === 0) return null;
 
   return (
     <div

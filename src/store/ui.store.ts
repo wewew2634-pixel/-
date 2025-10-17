@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import type { BannerProps } from '@/components/ui/Banner';
 
 export type ToastType = 'success' | 'error' | 'warning' | 'info';
 
@@ -30,10 +31,17 @@ export interface BottomSheet {
   props?: Record<string, any>;
 }
 
+export interface BannerState {
+  id: string;
+  props: Omit<BannerProps, 'id' | 'onDismiss'>;
+  persistent?: boolean;
+}
+
 interface UIState {
   toasts: Toast[];
   modals: Modal[];
   bottomSheets: BottomSheet[];
+  banners: BannerState[];
   activeModalId: string | undefined;
   isLoading: boolean;
   loadingMessage: string | undefined;
@@ -57,6 +65,17 @@ interface UIState {
   closeBottomSheet: (id: string) => void;
   closeAllBottomSheets: () => void;
 
+  showBanner: (banner: Omit<BannerState, 'id'>) => string;
+  dismissBanner: (id: string) => void;
+  clearBanners: () => void;
+
+  banner: {
+    info: (message: string, title?: string, persistent?: boolean) => string;
+    success: (message: string, title?: string, persistent?: boolean) => string;
+    warning: (message: string, title?: string, persistent?: boolean) => string;
+    error: (message: string, title?: string, persistent?: boolean) => string;
+  };
+
   setLoading: (isLoading: boolean, message?: string) => void;
 }
 
@@ -64,6 +83,7 @@ export const useUIStore = create<UIState>((set, get) => ({
   toasts: [],
   modals: [],
   bottomSheets: [],
+  banners: [],
   activeModalId: undefined,
   isLoading: false,
   loadingMessage: undefined,
@@ -151,6 +171,79 @@ export const useUIStore = create<UIState>((set, get) => ({
 
   setLoading: (isLoading, message) => {
     set({ isLoading, loadingMessage: message });
+  },
+
+  showBanner: (banner) => {
+    const id = `banner-${Date.now()}-${Math.random()}`;
+    set((state) => ({
+      banners: [...state.banners, { ...banner, id }],
+    }));
+
+    // Auto-dismiss for non-persistent banners
+    if (!banner.persistent && banner.props.autoHideDuration) {
+      setTimeout(() => {
+        get().dismissBanner(id);
+      }, banner.props.autoHideDuration);
+    }
+
+    return id;
+  },
+
+  dismissBanner: (id) => {
+    set((state) => ({
+      banners: state.banners.filter((b) => b.id !== id),
+    }));
+  },
+
+  clearBanners: () => {
+    set({ banners: [] });
+  },
+
+  banner: {
+    info: (message, title, persistent = false) => {
+      return get().showBanner({
+        props: {
+          variant: 'info',
+          message,
+          title,
+          dismissible: true,
+        },
+        persistent,
+      });
+    },
+    success: (message, title, persistent = false) => {
+      return get().showBanner({
+        props: {
+          variant: 'success',
+          message,
+          title,
+          dismissible: true,
+        },
+        persistent,
+      });
+    },
+    warning: (message, title, persistent = false) => {
+      return get().showBanner({
+        props: {
+          variant: 'warning',
+          message,
+          title,
+          dismissible: true,
+        },
+        persistent,
+      });
+    },
+    error: (message, title, persistent = true) => {
+      return get().showBanner({
+        props: {
+          variant: 'error',
+          message,
+          title,
+          dismissible: true,
+        },
+        persistent,
+      });
+    },
   },
 }));
 
