@@ -227,9 +227,9 @@ export const MissionCard = memo(React.forwardRef<HTMLDivElement, MissionCardProp
               {mission.stats.completed}/{mission.stats.totalSlots} 완료
             </span>
           </div>
-          <div className="zzik-bar">
+          <div className="h-2 rounded-full bg-surface-2 overflow-hidden relative">
             <div
-              className="zzik-bar__fill zzik-bar__fill--primary"
+              className="h-full rounded-full transition-all duration-500 ease-out bg-gradient-to-r from-primary via-primary-hover to-primary"
               style={{
                 width: `${(mission.stats.completed / mission.stats.totalSlots) * 100}%`,
               }}
@@ -245,8 +245,8 @@ export const MissionCard = memo(React.forwardRef<HTMLDivElement, MissionCardProp
         {/* Action Button - Plus-Polish Enhanced */}
         <button
           className={cn(
-            "zzik-btn w-full",
-            mission.stats.remainingSlots === 0 ? "zzik-btn--secondary" : "zzik-btn--primary"
+            "inline-flex items-center justify-center gap-2 h-14 px-4 rounded-2xl font-semibold text-[15px] transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none active:scale-[0.98] w-full",
+            mission.stats.remainingSlots === 0 ? "bg-surface-2 text-foreground border border-border hover:bg-surface-hover hover:border-primary/30" : "bg-primary text-primary-foreground shadow-lg hover:brightness-105 hover:shadow-xl hover:-translate-y-0.5"
           )}
           onClick={(e) => {
             e.stopPropagation();

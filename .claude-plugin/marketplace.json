@@ -1,0 +1,50 @@
+{
+  "$schema": "https://claude.ai/schemas/plugin-marketplace.json",
+  "name": "zzmuk-plugins",
+  "version": "1.0.0",
+  "description": "ZZMUK (찍먹) Claude Code Plugin Marketplace - Tailwind Plus Guards, Design QA, Token Drift Detection",
+  "owner": {
+    "name": "ZZMUK Team",
+    "url": "https://github.com/your-org/zzmuk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/zzmuk.git"
+  },
+  "plugins": [
+    {
+      "name": "tailwind-guard",
+      "source": "./plugins/tailwind-guard",
+      "description": "Blocks any custom CSS files & enforces Tailwind Plus-only usage. Prevents .css/.scss files and inline <style> tags in TSX/TS files.",
+      "version": "1.0.0",
+      "author": "ZZMUK Team",
+      "tags": ["css", "tailwind", "guard", "enforcement", "quality"],
+      "capabilities": ["hooks", "commands"],
+      "permissions": ["read:files", "write:comments"]
+    },
+    {
+      "name": "design-qa",
+      "source": "./plugins/design-qa",
+      "description": "Runs design quality checks including Lighthouse audits, axe accessibility scans, meta tag validation, and Apple Liquid Glass design compliance.",
+      "version": "1.0.0",
+      "author": "ZZMUK Team",
+      "tags": ["design", "qa", "accessibility", "lighthouse", "a11y"],
+      "capabilities": ["agents", "commands"],
+      "permissions": ["read:files", "execute:commands", "write:reports"]
+    },
+    {
+      "name": "token-drift",
+      "source": "./plugins/token-drift",
+      "description": "Detects token mismatch between Figma Tokens JSON and Tailwind config/tokens.css. Ensures design system synchronization.",
+      "version": "1.0.0",
+      "author": "ZZMUK Team",
+      "tags": ["tokens", "figma", "design-system", "sync", "drift"],
+      "capabilities": ["hooks", "commands"],
+      "permissions": ["read:files", "write:comments"]
+    }
+  ],
+  "requirements": {
+    "claudeCode": ">=1.0.0",
+    "node": ">=18.0.0"
+  }
+}

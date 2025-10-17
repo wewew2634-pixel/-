@@ -1,0 +1,34 @@
+{
+  "name": "tailwind-guard",
+  "version": "1.0.0",
+  "description": "Prohibits custom CSS and enforces Tailwind Plus utility usage",
+  "author": {
+    "name": "ZZMUK Team"
+  },
+  "homepage": "https://github.com/your-org/zzmuk",
+  "license": "MIT",
+  "keywords": ["css", "tailwind", "guard", "enforcement"],
+  "capabilities": {
+    "hooks": ["beforeCommit", "onPullRequest"],
+    "commands": ["lint-check", "scan-css"]
+  },
+  "configuration": {
+    "blockedPatterns": [
+      "\\.css$",
+      "\\.scss$",
+      "\\.sass$",
+      "<style",
+      "@apply",
+      "@layer components"
+    ],
+    "allowedFiles": [
+      "globals.css",
+      "tokens.css"
+    ],
+    "allowedPatternsInGlobalsCss": [
+      "@tailwind",
+      "@layer base",
+      ":root"
+    ]
+  }
+}

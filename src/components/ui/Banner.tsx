@@ -112,13 +112,13 @@ export function Banner({
       aria-live={variant === 'error' ? 'assertive' : 'polite'}
       aria-atomic="true"
       className={cn(
-        'zzik-banner',
-        variant === 'info' && 'zzik-banner--info',
-        variant === 'success' && 'zzik-banner--success',
-        variant === 'warning' && 'zzik-banner--warning',
-        variant === 'error' && 'zzik-banner--error',
+        'flex items-start gap-3 p-4 rounded-xl border shadow-md transition-all duration-200',
+        variant === 'info' && 'bg-info-background border-info/20',
+        variant === 'success' && 'bg-success-background border-success/20',
+        variant === 'warning' && 'bg-warning-background border-warning/20',
+        variant === 'error' && 'bg-destructive-background border-destructive/20',
         variant === 'neutral' && 'bg-surface/50 border-border',
-        'focus-within:zzik-focus-ring'
+        'focus-within:outline-none focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2 focus-within:ring-offset-surface'
       )}
     >
       {/* Icon */}
@@ -146,7 +146,7 @@ export function Banner({
                 className={cn(
                   'inline-flex items-center justify-center h-10 px-4 rounded-lg',
                   'text-sm font-semibold transition-all duration-200',
-                  'zzik-focus-ring',
+                  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface',
                   config.buttonClass
                 )}
                 aria-label={action.label}
@@ -161,7 +161,7 @@ export function Banner({
                   'inline-flex items-center justify-center h-10 px-4 rounded-lg',
                   'text-sm font-semibold transition-all duration-200',
                   'border border-current hover:bg-surface/50',
-                  'zzik-focus-ring',
+                  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface',
                   config.textClass
                 )}
                 aria-label={secondaryAction.label}
@@ -179,7 +179,7 @@ export function Banner({
           onClick={handleDismiss}
           className={cn(
             'flex-shrink-0 p-1.5 rounded-md transition-colors duration-200',
-            'hover:bg-surface/50 zzik-focus-ring',
+            'hover:bg-surface/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface',
             config.iconClass
           )}
           aria-label="배너 닫기"

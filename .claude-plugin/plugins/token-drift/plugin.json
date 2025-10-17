@@ -1,0 +1,34 @@
+{
+  "name": "token-drift",
+  "version": "1.0.0",
+  "description": "Detect token mismatch between Figma Tokens JSON and Tailwind config/tokens.css",
+  "author": {
+    "name": "ZZMUK Team"
+  },
+  "homepage": "https://github.com/your-org/zzmuk",
+  "license": "MIT",
+  "keywords": ["tokens", "figma", "design-system", "sync", "drift"],
+  "capabilities": {
+    "hooks": ["postPush", "onPullRequest"],
+    "commands": ["check-token-drift", "sync-tokens"]
+  },
+  "configuration": {
+    "sources": {
+      "figmaTokens": "./design-tokens/figma-tokens.json",
+      "tailwindConfig": "./tailwind.config.ts",
+      "tokensCss": "./src/styles/tokens.css"
+    },
+    "checks": {
+      "colors": true,
+      "spacing": true,
+      "typography": true,
+      "shadows": true,
+      "borderRadius": true,
+      "breakpoints": true
+    },
+    "reporting": {
+      "format": "json",
+      "outputPath": "./.token-drift-report.json"
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "name": "design-qa",
+  "version": "1.0.0",
+  "description": "Design quality & accessibility audit plugin for Apple Liquid Glass design compliance",
+  "author": {
+    "name": "ZZMUK Team"
+  },
+  "homepage": "https://github.com/your-org/zzmuk",
+  "license": "MIT",
+  "keywords": ["design", "qa", "accessibility", "lighthouse", "a11y", "liquid-glass"],
+  "capabilities": {
+    "agents": ["design-check"],
+    "commands": ["run-design-qa", "check-liquid-glass"]
+  },
+  "configuration": {
+    "targetPages": [
+      "/splash",
+      "/onboarding",
+      "/auth/login",
+      "/(creator)/home"
+    ],
+    "thresholds": {
+      "performance": 90,
+      "accessibility": 95,
+      "bestPractices": 90,
+      "seo": 90
+    },
+    "liquidGlassChecks": {
+      "backdropBlur": true,
+      "glassmorphism": true,
+      "saturation": true,
+      "borderOpacity": true,
+      "shadowLayers": true
+    },
+    "accessibilityChecks": {
+      "colorContrast": "WCAG_AA",
+      "ariaAttributes": true,
+      "semanticHTML": true,
+      "keyboardNavigation": true,
+      "focusVisible": true
+    }
+  }
+}
