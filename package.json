@@ -17,9 +17,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
-    "@mapbox/mapbox-gl-geocoder": "^5.0.2",
     "@serwist/next": "^9.0.0",
-    "@types/mapbox-gl": "^3.1.0",
     "@types/react-dom": "^18.2.18",
     "@vercel/analytics": "^1.1.1",
     "autoprefixer": "^10.4.16",
@@ -27,8 +25,6 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "date-fns": "^3.0.6",
-    "framer-motion": "^10.18.0",
-    "mapbox-gl": "^3.1.0",
     "next": "^15.0.3",
     "postcss": "^8.4.32",
     "react": "^19.0.0",

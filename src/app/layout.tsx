@@ -2,9 +2,9 @@ import type { Metadata, Viewport } from 'next';
 import { Analytics } from '@vercel/analytics/react';
 import { ToastContainer } from '@/components/ui/Toast';
 import { Modal } from '@/components/ui/Modal';
-import { WebVitals } from '@/components/WebVitals';
-import { PerformanceMonitor } from '@/components/PerformanceMonitor';
+import { PerformanceOptimizer } from '@/components/PerformanceOptimizer';
 import { JsonLd, generateOrganizationJsonLd } from '@/lib/metadata';
+import { pretendard } from './fonts';
 import '@/styles/globals.css';
 
 export const metadata: Metadata = {
@@ -88,30 +88,17 @@ export default function RootLayout({
   const organizationData = generateOrganizationJsonLd();
   
   return (
-    <html lang="ko" suppressHydrationWarning>
+    <html lang="ko" suppressHydrationWarning className={pretendard.variable}>
       <head>
-        {/* Preconnect to external domains */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://cdn.jsdelivr.net" />
-        
-        {/* Pretendard Variable Font */}
-        <link
-          rel="stylesheet"
-          as="style"
-          crossOrigin="anonymous"
-          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
-        />
-        
         {/* Organization Structured Data */}
         <JsonLd data={organizationData} />
       </head>
-      <body className="font-pretendard antialiased bg-bg-primary text-text-primary min-h-screen">
+      <body className={`${pretendard.className} antialiased bg-bg-primary text-text-primary min-h-screen`}>
         {children}
         <ToastContainer />
         <Modal />
-        <Analytics />
-        <WebVitals />
-        <PerformanceMonitor />
+        {process.env.NODE_ENV === 'production' && <Analytics />}
+        <PerformanceOptimizer />
       </body>
     </html>
   );
