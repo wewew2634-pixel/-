@@ -38,7 +38,7 @@ const VARIANT_CONFIG: Record<BannerVariant, {
     borderClass: 'border-info/20',
     iconClass: 'text-info',
     textClass: 'text-info-foreground',
-    buttonClass: 'bg-info hover:brightness-110 text-info-foreground',
+    buttonClass: 'bg-info hover:brightness-110 text-info-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-info focus-visible:ring-offset-2 focus-visible:ring-offset-surface',
   },
   success: {
     icon: CheckCircle,
@@ -46,7 +46,7 @@ const VARIANT_CONFIG: Record<BannerVariant, {
     borderClass: 'border-success/20',
     iconClass: 'text-success',
     textClass: 'text-success-foreground',
-    buttonClass: 'bg-success hover:brightness-110 text-success-foreground',
+    buttonClass: 'bg-success hover:brightness-110 text-success-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-success focus-visible:ring-offset-2 focus-visible:ring-offset-surface',
   },
   warning: {
     icon: AlertTriangle,
@@ -54,7 +54,7 @@ const VARIANT_CONFIG: Record<BannerVariant, {
     borderClass: 'border-warning/20',
     iconClass: 'text-warning',
     textClass: 'text-warning-foreground',
-    buttonClass: 'bg-warning hover:brightness-110 text-warning-foreground',
+    buttonClass: 'bg-warning hover:brightness-110 text-warning-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-warning focus-visible:ring-offset-2 focus-visible:ring-offset-surface',
   },
   error: {
     icon: AlertCircle,
@@ -62,15 +62,15 @@ const VARIANT_CONFIG: Record<BannerVariant, {
     borderClass: 'border-destructive/20',
     iconClass: 'text-destructive',
     textClass: 'text-destructive-foreground',
-    buttonClass: 'bg-destructive hover:brightness-110 text-destructive-foreground',
+    buttonClass: 'bg-destructive hover:brightness-110 text-destructive-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-destructive focus-visible:ring-offset-2 focus-visible:ring-offset-surface',
   },
   neutral: {
     icon: Info,
-    bgClass: 'bg-surface/50',
+    bgClass: 'bg-surface-2',
     borderClass: 'border-border',
     iconClass: 'text-muted',
     textClass: 'text-foreground',
-    buttonClass: 'bg-surface-2 hover:bg-surface-hover text-foreground',
+    buttonClass: 'bg-surface-3 hover:bg-surface-2/80 text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-surface',
   },
 };
 
