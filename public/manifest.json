@@ -1,0 +1,97 @@
+{
+  "name": "JJIKMEOK - 찍먹",
+  "short_name": "찍먹",
+  "description": "로컬 상점 미션을 오늘 찍고, 오늘 받는다. 나노 크리에이터를 위한 로컬 숏폼 플랫폼.",
+  "theme_color": "#0A0E1A",
+  "background_color": "#0A0E1A",
+  "display": "standalone",
+  "orientation": "portrait",
+  "scope": "/",
+  "start_url": "/creator/home",
+  "lang": "ko-KR",
+  "dir": "ltr",
+  "categories": ["productivity", "business", "social"],
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/logos/variant4-stacked/logo-stacked-384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/logos/variant4-stacked/logo-stacked-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/home.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "미션 홈 화면"
+    },
+    {
+      "src": "/screenshots/capture.png",
+      "sizes": "1080x1920",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "샷 캡처 화면"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "미션 찾기",
+      "short_name": "미션",
+      "description": "근처 미션 리스트 보기",
+      "url": "/creator/home",
+      "icons": [
+        {
+          "src": "/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "캡처하기",
+      "short_name": "캡처",
+      "description": "새 미션 촬영하기",
+      "url": "/creator/capture",
+      "icons": [
+        {
+          "src": "/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "지갑",
+      "short_name": "지갑",
+      "description": "정산 내역 확인",
+      "url": "/creator/wallet",
+      "icons": [
+        {
+          "src": "/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ],
+  "prefer_related_applications": false,
+  "related_applications": [],
+  "display_override": ["standalone", "minimal-ui", "browser"]
+}
