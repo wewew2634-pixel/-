@@ -1,0 +1,174 @@
+/**
+ * ZZIK Design Tokens
+ * 
+ * Semantic design tokens using HSL color space for maximum flexibility.
+ * All tokens use CSS custom properties for dynamic theming support.
+ * 
+ * Usage in components:
+ * - bg-primary → hsl(var(--pri))
+ * - text-accent → hsl(var(--acc))
+ * - ring-primary → hsl(var(--ring))
+ */
+
+:root {
+  /* ========================================
+   * Brand Colors (Primary & Accent)
+   * ======================================== */
+  
+  /* Primary: Brand Orange (#FF7A00) */
+  --pri: 24 100% 50%;
+  --pri-fg: 0 0% 100%;           /* Text on primary */
+  --pri-hover: 24 100% 45%;      /* Hover state */
+  --pri-active: 24 100% 40%;     /* Active state */
+  
+  /* Accent: Teal (#14B8A6) - For progress/success states */
+  --acc: 172 66% 43%;
+  --acc-fg: 0 0% 7%;             /* Text on accent */
+  --acc-hover: 172 66% 38%;      /* Hover state */
+  --acc-active: 172 66% 33%;     /* Active state */
+
+  /* ========================================
+   * Background Colors
+   * ======================================== */
+  
+  --bg: 230 13% 10%;             /* Body background (#161822) */
+  --bg-elevated: 228 12% 13%;    /* Elevated surfaces (#1C1F2B) */
+  --bg-subtle: 228 11% 8%;       /* Subtle background (#121419) */
+  
+  /* ========================================
+   * Surface Colors (Cards, Panels)
+   * ======================================== */
+  
+  --surface: 228 12% 13%;        /* Default surface (#1C1F2B) */
+  --surface-2: 228 11% 18%;      /* Elevated surface (#292D3E) */
+  --surface-3: 228 10% 23%;      /* Highest elevation (#363B4F) */
+  --surface-fg: 0 0% 96%;        /* Text on surface */
+  
+  /* ========================================
+   * Text Colors
+   * ======================================== */
+  
+  --text: 0 0% 96%;              /* Primary text (#F5F5F5) */
+  --text-secondary: 0 0% 72%;    /* Secondary text (#B8B8B8) */
+  --muted: 0 0% 56%;             /* Muted text (#8F8F8F) */
+  --text-disabled: 0 0% 40%;     /* Disabled text (#666666) */
+  
+  /* ========================================
+   * Semantic Status Colors
+   * ======================================== */
+  
+  /* Success / OK */
+  --ok: 152 70% 40%;             /* Green (#1FAA6D) */
+  --ok-fg: 0 0% 100%;
+  --ok-bg: 152 70% 10%;          /* Success background */
+  
+  /* Warning */
+  --warn: 38 95% 54%;            /* Amber (#F59E0B) */
+  --warn-fg: 0 0% 7%;
+  --warn-bg: 38 95% 10%;         /* Warning background */
+  
+  /* Error / Danger */
+  --err: 0 78% 55%;              /* Red (#E53E3E) */
+  --err-fg: 0 0% 100%;
+  --err-bg: 0 78% 10%;           /* Error background */
+  
+  /* Info */
+  --info: 217 91% 60%;           /* Blue (#3B82F6) */
+  --info-fg: 0 0% 100%;
+  --info-bg: 217 91% 10%;        /* Info background */
+  
+  /* ========================================
+   * Border Colors
+   * ======================================== */
+  
+  --border: 228 10% 25%;         /* Default border (#3D4152) */
+  --border-hover: 228 10% 35%;   /* Hover border */
+  --border-focus: var(--pri);    /* Focus border (same as primary) */
+  
+  /* ========================================
+   * Radius Values
+   * ======================================== */
+  
+  --r-sm: 0.5rem;                /* 8px - Small radius */
+  --r-md: 0.75rem;               /* 12px - Medium radius */
+  --r-lg: 1rem;                  /* 16px - Large radius */
+  --r-xl: 1.25rem;               /* 20px - Extra large radius */
+  --r-2xl: 1.5rem;               /* 24px - 2X large radius */
+  --r-full: 9999px;              /* Full rounded */
+  
+  /* ========================================
+   * Elevation (Shadows)
+   * ======================================== */
+  
+  --elev-1: 0 2px 8px -2px hsl(0 0% 0% / 0.25);
+  --elev-2: 0 4px 16px -4px hsl(0 0% 0% / 0.3);
+  --elev-3: 0 8px 24px -6px hsl(0 0% 0% / 0.35);
+  --elev-4: 0 16px 40px -8px hsl(0 0% 0% / 0.4);
+  
+  /* ========================================
+   * Focus Ring
+   * ======================================== */
+  
+  --ring: var(--pri);            /* Focus ring color (primary) */
+  --ring-offset: 2px;            /* Focus ring offset */
+  --ring-width: 2px;             /* Focus ring width */
+  
+  /* ========================================
+   * Spacing Scale
+   * ======================================== */
+  
+  --space-xs: 0.25rem;           /* 4px */
+  --space-sm: 0.5rem;            /* 8px */
+  --space-md: 1rem;              /* 16px */
+  --space-lg: 1.5rem;            /* 24px */
+  --space-xl: 2rem;              /* 32px */
+  --space-2xl: 3rem;             /* 48px */
+  
+  /* ========================================
+   * Typography Scale
+   * ======================================== */
+  
+  --text-xs: 0.75rem;            /* 12px */
+  --text-sm: 0.875rem;           /* 14px */
+  --text-base: 1rem;             /* 16px */
+  --text-lg: 1.125rem;           /* 18px */
+  --text-xl: 1.25rem;            /* 20px */
+  --text-2xl: 1.5rem;            /* 24px */
+  --text-3xl: 1.875rem;          /* 30px */
+  
+  /* ========================================
+   * Transition Durations
+   * ======================================== */
+  
+  --duration-fast: 150ms;
+  --duration-base: 200ms;
+  --duration-slow: 300ms;
+  
+  /* ========================================
+   * Easing Functions
+   * ======================================== */
+  
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+}
+
+/**
+ * Color Utility Classes
+ * Quick access to semantic colors
+ */
+.text-primary { color: hsl(var(--pri)); }
+.text-accent { color: hsl(var(--acc)); }
+.text-ok { color: hsl(var(--ok)); }
+.text-warn { color: hsl(var(--warn)); }
+.text-err { color: hsl(var(--err)); }
+.text-info { color: hsl(var(--info)); }
+
+.bg-primary { background-color: hsl(var(--pri)); }
+.bg-accent { background-color: hsl(var(--acc)); }
+.bg-surface { background-color: hsl(var(--surface)); }
+.bg-surface-2 { background-color: hsl(var(--surface-2)); }
+
+.border-primary { border-color: hsl(var(--pri)); }
+.border-accent { border-color: hsl(var(--acc)); }
+.border-default { border-color: hsl(var(--border)); }
