@@ -1,26 +1,20 @@
-'use client';
+import Link from "next/link";
+import Logo from "@/components/Logo";
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import Logo from '@/components/Logo';
-
-export default function SplashPage() {
-  const router = useRouter();
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      router.push('/onboarding');
-    }, 1500);
-    return () => clearTimeout(timer);
-  }, [router]);
-
+export default function Splash() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center p-4">
-      <div className="text-center space-y-6">
-        <Logo size="lg" />
-        <h1 className="text-4xl font-bold text-gray-900">ZZMUK</h1>
-        <p className="text-gray-600">Create • Earn • Explore</p>
-      </div>
-    </div>
+    <main className="grid min-h-dvh place-items-center p-6">
+      <section className="text-center space-y-6">
+        <Logo size="xl" />
+        <h1 className="text-3xl font-extrabold tracking-tight">ZZMUK</h1>
+        <p className="text-sm text-white/70">로컬 미션 — 오늘 찍고 오늘 정산</p>
+        <Link
+          href="/onboarding"
+          className="inline-flex h-12 px-6 items-center justify-center rounded-2xl bg-primary text-on-primary font-semibold hover:brightness-105 transition"
+        >
+          시작하기
+        </Link>
+      </section>
+    </main>
   );
 }

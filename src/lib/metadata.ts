@@ -23,6 +23,37 @@ export const SITE_CONFIG = {
 } as const;
 
 /**
+ * Unified site metadata (exported for layout.tsx)
+ */
+export const SITE = {
+  name: "ZZMUK",
+  url: "https://3000-i0a44wg364p45iruk1vlb-b237eb32.sandbox.novita.ai",
+  twitter: "@zzmuk",
+  description: "로컬 미션: 오늘 찍고 오늘 정산(T+0).",
+};
+
+export const metadata: Metadata = {
+  title: `${SITE.name} — Create • Earn • Explore`,
+  description: SITE.description,
+  metadataBase: new URL(SITE.url),
+  alternates: { canonical: `${SITE.url}/splash` },
+  openGraph: {
+    title: `${SITE.name} — Create • Earn • Explore`,
+    description: SITE.description,
+    url: SITE.url,
+    siteName: SITE.name,
+    images: [
+      `${SITE.url}/api/og?title=${encodeURIComponent(SITE.name)}&subtitle=Create%20•%20Earn%20•%20Explore`,
+    ],
+    locale: "ko_KR",
+    type: "website",
+  },
+  twitter: { card: "summary_large_image", creator: SITE.twitter },
+  icons: { icon: "/icons/icon-192.png", apple: "/icons/apple-touch-icon.png" },
+  manifest: "/manifest.webmanifest",
+};
+
+/**
  * Generate basic metadata
  */
 export function generateMetadata({
