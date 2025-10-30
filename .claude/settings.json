@@ -1,0 +1,109 @@
+{
+  "$schema": "https://claude.ai/schemas/settings.json",
+  "version": "1.0.0",
+  "project": {
+    "name": "ZZMUK (찍먹)",
+    "description": "Local-based nano short-form platform with Apple Liquid Glass design",
+    "type": "fullstack",
+    "stack": ["Next.js", "React", "TypeScript", "Tailwind CSS", "Fastify"]
+  },
+  "plugins": {
+    "enabled": true,
+    "autoUpdate": false,
+    "marketplaces": [
+      {
+        "name": "zzmuk",
+        "source": {
+          "type": "local",
+          "path": "./.claude-plugin"
+        },
+        "enabled": true
+      }
+    ],
+    "installed": [
+      {
+        "name": "tailwind-guard",
+        "marketplace": "zzmuk",
+        "version": "1.0.0",
+        "enabled": true,
+        "priority": 100,
+        "autoRun": {
+          "onCommit": true,
+          "onPullRequest": true
+        }
+      },
+      {
+        "name": "design-qa",
+        "marketplace": "zzmuk",
+        "version": "1.0.0",
+        "enabled": true,
+        "priority": 80,
+        "autoRun": {
+          "onPullRequest": true,
+          "onDemand": true
+        }
+      },
+      {
+        "name": "token-drift",
+        "marketplace": "zzmuk",
+        "version": "1.0.0",
+        "enabled": true,
+        "priority": 70,
+        "autoRun": {
+          "onPush": true,
+          "onPullRequest": true
+        }
+      }
+    ]
+  },
+  "hooks": {
+    "enabled": true,
+    "preCommit": ["tailwind-guard"],
+    "postPush": ["token-drift"],
+    "onPullRequest": ["tailwind-guard", "design-qa", "token-drift"]
+  },
+  "commands": {
+    "aliases": {
+      "lint-css": "/run tailwind-guard lint-check",
+      "check-design": "/agent design-check",
+      "check-tokens": "/run check-token-drift"
+    }
+  },
+  "reporting": {
+    "format": "detailed",
+    "outputPath": "./.claude-reports",
+    "notifications": {
+      "prComments": true,
+      "console": true,
+      "slack": false
+    }
+  },
+  "rules": {
+    "tailwindOnly": {
+      "enabled": true,
+      "severity": "error",
+      "description": "커스텀 CSS 절대 금지 - Tailwind Plus only"
+    },
+    "liquidGlassCompliance": {
+      "enabled": true,
+      "severity": "warning",
+      "description": "Apple Liquid Glass design compliance checks"
+    },
+    "tokenSync": {
+      "enabled": true,
+      "severity": "warning",
+      "description": "Design token synchronization between Figma and Tailwind"
+    },
+    "accessibility": {
+      "enabled": true,
+      "severity": "error",
+      "wcagLevel": "AA",
+      "description": "WCAG 2.1 Level AA accessibility compliance"
+    }
+  },
+  "development": {
+    "autoFormat": true,
+    "autoLint": true,
+    "strictMode": true
+  }
+}

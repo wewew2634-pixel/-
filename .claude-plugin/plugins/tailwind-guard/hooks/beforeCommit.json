@@ -1,0 +1,60 @@
+{
+  "hookType": "PreCommit",
+  "name": "css-blocker",
+  "description": "Prevents commits containing custom CSS files or inline styles",
+  "priority": 100,
+  "matcher": {
+    "files": ["**/*.{tsx,ts,jsx,js,css,scss,sass}"],
+    "exclude": ["node_modules/**", ".next/**", "dist/**"]
+  },
+  "checks": [
+    {
+      "name": "block-css-files",
+      "type": "command",
+      "command": "bash",
+      "args": [
+        "-c",
+        "cd /home/user/webapp && git diff --cached --name-only --diff-filter=ACM | grep -E '\\.(css|scss|sass)$' | grep -v 'globals.css\\|tokens.css' && exit 1 || exit 0"
+      ],
+      "onFailure": {
+        "action": "block",
+        "message": "❌ BLOCKED: Custom CSS files detected!\n\n⚠️ Absolute Rule: 커스텀 CSS 절대 금지 (NO custom CSS)\n✅ Use ONLY Tailwind Plus utility classes\n\nBlocked file patterns: .css, .scss, .sass (except globals.css, tokens.css)\n\nTo fix:\n1. Remove custom CSS file\n2. Convert styles to Tailwind utility classes\n3. See: README-PLUGINS.md for guidance"
+      }
+    },
+    {
+      "name": "block-inline-styles",
+      "type": "command",
+      "command": "bash",
+      "args": [
+        "-c",
+        "cd /home/user/webapp && git diff --cached -U0 | grep -E '^\\+.*<style' && exit 1 || exit 0"
+      ],
+      "onFailure": {
+        "action": "block",
+        "message": "❌ BLOCKED: Inline <style> tags detected!\n\n⚠️ Absolute Rule: NO inline style tags allowed\n✅ Use ONLY Tailwind utility classes in className prop\n\nTo fix:\n1. Remove <style> tags\n2. Convert to Tailwind classes in className\n3. Example: className=\"flex items-center gap-2 ...\""
+      }
+    },
+    {
+      "name": "block-apply-directives",
+      "type": "command",
+      "command": "bash",
+      "args": [
+        "-c",
+        "cd /home/user/webapp && git diff --cached -U0 -- src/**/*.css | grep -E '^\\+.*@apply' && exit 1 || exit 0"
+      ],
+      "onFailure": {
+        "action": "warn",
+        "message": "⚠️ WARNING: @apply directive detected in CSS!\n\n💡 Recommendation: Replace @apply with inline Tailwind utilities\n✅ Preferred: className=\"inline-flex items-center ...\"\n❌ Avoid: .custom-class { @apply inline-flex items-center; }\n\nThis is a warning for now, but consider refactoring."
+      }
+    }
+  ],
+  "reporting": {
+    "onSuccess": {
+      "message": "✅ Tailwind Guard: No custom CSS violations detected"
+    },
+    "onBlock": {
+      "exitCode": 1,
+      "notifyChannels": ["pr-comments"]
+    }
+  }
+}

@@ -1,0 +1,119 @@
+name: Deploy Web App
+
+on:
+  push:
+    branches: [ main ]
+    paths: [ 'apps/web/**', '.github/workflows/deploy-web.yml' ]
+  workflow_dispatch:
+
+jobs:
+  deploy-vercel:
+    name: Deploy to Vercel
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: apps/web/package-lock.json
+
+    - name: Install Vercel CLI
+      run: npm install --global vercel@latest
+
+    - name: Pull Vercel Environment Information
+      run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+      working-directory: apps/web
+
+    - name: Build Project Artifacts
+      run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+      working-directory: apps/web
+      env:
+        NEXT_PUBLIC_API_BASE: ${{ secrets.NEXT_PUBLIC_API_BASE }}
+
+    - name: Deploy Project Artifacts to Vercel
+      id: deploy
+      run: |
+        url=$(vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }})
+        echo "url=$url" >> $GITHUB_OUTPUT
+      working-directory: apps/web
+
+    - name: Update deployment status
+      if: success()
+      run: |
+        echo "🚀 Deployed to: ${{ steps.deploy.outputs.url }}"
+        echo "::notice title=Deployment Successful::Web app deployed to ${{ steps.deploy.outputs.url }}"
+
+    - name: Run post-deploy health check
+      run: |
+        sleep 10
+        curl -f ${{ steps.deploy.outputs.url }}/creator/home || exit 1
+        echo "✅ Health check passed"
+
+    - name: Update PR with deployment URL
+      if: github.event_name == 'pull_request'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const { owner, repo, number } = context.issue;
+          await github.rest.issues.createComment({
+            owner,
+            repo,
+            issue_number: number,
+            body: `🚀 **Preview deployment ready!**\n\n📱 **JJIKMEOK Web App**: ${{ steps.deploy.outputs.url }}\n\n**Test the core flow:**\n- 📍 [Mission List](${{ steps.deploy.outputs.url }}/creator/home)\n- 🎥 [Capture](${{ steps.deploy.outputs.url }}/creator/capture)\n- 💰 [Wallet](${{ steps.deploy.outputs.url }}/creator/wallet)\n\n*Deployed from commit ${context.sha.substring(0, 7)}*`
+          });
+
+  lighthouse-audit:
+    name: Lighthouse Performance Audit
+    runs-on: ubuntu-latest
+    needs: deploy-vercel
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Run Lighthouse CI
+      uses: treosh/lighthouse-ci-action@v9
+      with:
+        urls: |
+          https://jjikmeok.vercel.app/creator/home
+          https://jjikmeok.vercel.app/creator/capture
+          https://jjikmeok.vercel.app/creator/wallet
+        configPath: './.lighthouserc.js'
+        uploadArtifacts: true
+        temporaryPublicStorage: true
+
+  # Slack notification for deployment
+  notify-deployment:
+    name: Notify Deployment
+    runs-on: ubuntu-latest
+    needs: [deploy-vercel, lighthouse-audit]
+    if: always()
+
+    steps:
+    - name: Slack Notification
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+        SLACK_CHANNEL: 'jjikmeok-deployments'
+        SLACK_COLOR: ${{ job.status }}
+        SLACK_MESSAGE: |
+          *JJIKMEOK Web App Deployment*
+          
+          📱 **Status**: ${{ needs.deploy-vercel.result == 'success' && '✅ Success' || '❌ Failed' }}
+          🔗 **URL**: https://jjikmeok.vercel.app
+          📊 **Lighthouse**: ${{ needs.lighthouse-audit.result == 'success' && '✅ Passed' || '⚠️ Check Required' }}
+          
+          **Quick Test Links:**
+          • [Mission List](https://jjikmeok.vercel.app/creator/home)
+          • [Shot Coach](https://jjikmeok.vercel.app/creator/capture) 
+          • [Wallet Status](https://jjikmeok.vercel.app/creator/wallet)
+          
+          *Commit: ${GITHUB_SHA:0:7} by ${GITHUB_ACTOR}*
+        SLACK_TITLE: Web App Deployment
+        SLACK_USERNAME: JJIKMEOK Bot

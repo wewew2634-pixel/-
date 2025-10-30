@@ -1,0 +1,38 @@
+{
+  "hookType": "PostPush",
+  "name": "token-drift-checker",
+  "description": "Detects design token drift after code push",
+  "priority": 80,
+  "matcher": {
+    "branches": ["main", "genspark_ai_developer", "feature/*"],
+    "files": [
+      "design-tokens/**/*.json",
+      "tailwind.config.ts",
+      "src/styles/tokens.css",
+      "src/styles/globals.css"
+    ]
+  },
+  "checks": [
+    {
+      "name": "detect-token-drift",
+      "type": "command",
+      "command": "node",
+      "args": [
+        "/home/user/webapp/scripts/check-token-drift.js"
+      ],
+      "timeout": 30000,
+      "onFailure": {
+        "action": "warn",
+        "message": "⚠️ WARNING: Design token drift detected!\n\n🎨 Token Mismatch Found:\n  - Figma Tokens JSON ≠ Tailwind Config / tokens.css\n  - Design system synchronization required\n\n📊 Drift Report:\n  See: ./.token-drift-report.json\n\n🔧 To fix:\n  1. Review drift report for specific mismatches\n  2. Update Tailwind config or Figma tokens\n  3. Run: /run sync-tokens (if available)\n  4. Re-commit synchronized tokens\n\n💡 Tip: Keep design tokens in sync to maintain design system integrity"
+      },
+      "onSuccess": {
+        "message": "✅ Token Drift Check: All design tokens synchronized"
+      }
+    }
+  ],
+  "reporting": {
+    "notifyChannels": ["pr-comments", "slack"],
+    "attachReport": true,
+    "reportPath": "./.token-drift-report.json"
+  }
+}
