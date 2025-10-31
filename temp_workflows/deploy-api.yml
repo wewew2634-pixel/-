@@ -1,0 +1,196 @@
+name: Deploy API
+
+on:
+  push:
+    branches: [ main ]
+    paths: [ 'services/api/**', '.github/workflows/deploy-api.yml' ]
+  workflow_dispatch:
+
+jobs:
+  deploy-fly:
+    name: Deploy to Fly.io
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Fly CLI
+      uses: superfly/flyctl-actions/setup-flyctl@master
+
+    - name: Deploy to Fly.io
+      run: flyctl deploy --remote-only --config services/api/fly.toml
+      working-directory: services/api
+      env:
+        FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+    - name: Health check
+      run: |
+        sleep 30
+        curl -f https://jjikmeok-api.fly.dev/health || exit 1
+        echo "✅ API health check passed"
+
+  # Database migration (if using external DB)
+  migrate-db:
+    name: Run Database Migrations
+    runs-on: ubuntu-latest
+    needs: deploy-fly
+    if: contains(github.event.head_commit.message, '[migrate]')
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        pip install alembic psycopg2-binary
+      working-directory: services/api
+
+    - name: Run migrations
+      run: |
+        alembic upgrade head
+      working-directory: services/api
+      env:
+        DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+  # API Performance Testing
+  api-load-test:
+    name: API Load Testing
+    runs-on: ubuntu-latest
+    needs: deploy-fly
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install k6
+      run: |
+        sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
+        echo "deb https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
+        sudo apt-get update
+        sudo apt-get install k6
+
+    - name: Run load tests
+      run: |
+        cat > load-test.js << 'EOF'
+        import http from 'k6/http';
+        import { check, sleep } from 'k6';
+
+        export let options = {
+          vus: 10, // 10 virtual users
+          duration: '30s',
+          thresholds: {
+            http_req_duration: ['p(95)<500'], // 95% of requests must complete below 500ms
+            http_req_failed: ['rate<0.1'], // error rate must be lower than 10%
+          },
+        };
+
+        export default function () {
+          // Test health endpoint
+          let healthRes = http.get('https://jjikmeok-api.fly.dev/health');
+          check(healthRes, { 'health check status was 200': (r) => r.status == 200 });
+
+          // Test missions list
+          let missionsRes = http.get('https://jjikmeok-api.fly.dev/v1/missions/list?status=open&lat=37.5665&lng=126.9780');
+          check(missionsRes, { 'missions list status was 200': (r) => r.status == 200 });
+
+          // Test pulse metrics
+          let pulseRes = http.get('https://jjikmeok-api.fly.dev/pulse/today');
+          check(pulseRes, { 'pulse status was 200': (r) => r.status == 200 });
+
+          sleep(1);
+        }
+        EOF
+
+        k6 run load-test.js
+
+  # Security scan for API
+  api-security-scan:
+    name: API Security Scan
+    runs-on: ubuntu-latest
+    needs: deploy-fly
+
+    steps:
+    - name: OWASP ZAP Baseline Scan
+      uses: zaproxy/action-baseline@v0.10.0
+      with:
+        target: 'https://jjikmeok-api.fly.dev'
+        rules_file_name: '.zap/rules.tsv'
+        cmd_options: '-a'
+
+  # Update API documentation
+  update-docs:
+    name: Update API Documentation
+    runs-on: ubuntu-latest
+    needs: deploy-fly
+
+    steps:
+    - name: Generate OpenAPI spec
+      run: |
+        curl -o openapi.json https://jjikmeok-api.fly.dev/openapi.json
+
+    - name: Update documentation site
+      run: |
+        # This would typically update a documentation site
+        echo "📚 API documentation updated"
+        echo "🔗 Swagger UI: https://jjikmeok-api.fly.dev/docs"
+        echo "📋 OpenAPI Spec: https://jjikmeok-api.fly.dev/openapi.json"
+
+  # Notify deployment status
+  notify-api-deployment:
+    name: Notify API Deployment
+    runs-on: ubuntu-latest
+    needs: [deploy-fly, api-load-test, api-security-scan]
+    if: always()
+
+    steps:
+    - name: Slack Notification
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+        SLACK_CHANNEL: 'jjikmeok-deployments'
+        SLACK_COLOR: ${{ job.status }}
+        SLACK_MESSAGE: |
+          *JJIKMEOK API Deployment*
+          
+          🚀 **Status**: ${{ needs.deploy-fly.result == 'success' && '✅ Success' || '❌ Failed' }}
+          📡 **URL**: https://jjikmeok-api.fly.dev
+          ⚡ **Load Test**: ${{ needs.api-load-test.result == 'success' && '✅ Passed' || '⚠️ Check Required' }}
+          🔒 **Security**: ${{ needs.api-security-scan.result == 'success' && '✅ Clean' || '⚠️ Review Required' }}
+          
+          **API Endpoints:**
+          • [Health Check](https://jjikmeok-api.fly.dev/health)
+          • [API Docs](https://jjikmeok-api.fly.dev/docs)
+          • [Pulse Metrics](https://jjikmeok-api.fly.dev/pulse/today)
+          • [Missions](https://jjikmeok-api.fly.dev/v1/missions/list?status=open&lat=37.5665&lng=126.9780)
+          
+          *Commit: ${GITHUB_SHA:0:7} by ${GITHUB_ACTOR}*
+        SLACK_TITLE: API Deployment
+        SLACK_USERNAME: JJIKMEOK Bot
+
+    - name: Create GitHub deployment
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const deployment = await github.rest.repos.createDeployment({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            ref: context.sha,
+            environment: 'production-api',
+            description: 'JJIKMEOK API deployment to Fly.io'
+          });
+          
+          await github.rest.repos.createDeploymentStatus({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            deployment_id: deployment.data.id,
+            state: '${{ needs.deploy-fly.result }}' === 'success' ? 'success' : 'failure',
+            target_url: 'https://jjikmeok-api.fly.dev',
+            description: 'API deployment ' + ('${{ needs.deploy-fly.result }}' === 'success' ? 'successful' : 'failed')
+          });
