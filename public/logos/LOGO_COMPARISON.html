@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JJIKMEOK Logo Variants Comparison</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Pretendard Variable', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+            background: #0A0E1A;
+            color: #FFFFFF;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #FF6B35 0%, #4ECDC4 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            font-size: 20px;
+            color: #B0B8C5;
+            margin-bottom: 48px;
+        }
+        
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 107, 53, 0.2);
+            border: 1px solid #FF6B35;
+            color: #FFFFFF;
+            padding: 12px 24px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .theme-toggle:hover {
+            background: rgba(255, 107, 53, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .logo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+            margin-bottom: 64px;
+        }
+        
+        .logo-card {
+            background: #131825;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 32px;
+            transition: all 0.3s ease;
+        }
+        
+        .logo-card:hover {
+            border-color: rgba(255, 107, 53, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transform: translateY(-4px);
+        }
+        
+        .logo-card h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #FF6B35;
+        }
+        
+        .logo-card .variant-label {
+            font-size: 14px;
+            color: #6B7280;
+            margin-bottom: 24px;
+        }
+        
+        .logo-display {
+            background: #1A2234;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 280px;
+            transition: background 0.3s ease;
+        }
+        
+        body.light-mode .logo-display {
+            background: #F3F4F6;
+        }
+        
+        .logo-display img {
+            max-width: 200px;
+            height: auto;
+            filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.2));
+        }
+        
+        .size-preview {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .size-preview-label {
+            font-size: 12px;
+            color: #6B7280;
+            min-width: 60px;
+        }
+        
+        .size-preview img {
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+        }
+        
+        .features {
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        .features h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #4ECDC4;
+        }
+        
+        .features ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .features li {
+            font-size: 14px;
+            color: #B0B8C5;
+            padding: 6px 0;
+            padding-left: 24px;
+            position: relative;
+        }
+        
+        .features li:before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #00C48C;
+            font-weight: bold;
+        }
+        
+        .features li.warning:before {
+            content: '⚠';
+            color: #FFA94D;
+        }
+        
+        .recommendation {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.15) 0%, rgba(78, 205, 196, 0.15) 100%);
+            border: 2px solid #FF6B35;
+            border-radius: 16px;
+            padding: 24px;
+            margin-top: 64px;
+        }
+        
+        .recommendation h2 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #FF6B35;
+        }
+        
+        .recommendation p {
+            font-size: 16px;
+            color: #B0B8C5;
+            margin-bottom: 12px;
+        }
+        
+        body.light-mode {
+            background: #FBFBFD;
+            color: #0A0E1A;
+        }
+        
+        body.light-mode .logo-card {
+            background: #FFFFFF;
+            border-color: rgba(0, 0, 0, 0.08);
+        }
+        
+        body.light-mode .subtitle,
+        body.light-mode .features li,
+        body.light-mode .recommendation p {
+            color: #4B5563;
+        }
+        
+        body.light-mode .size-preview {
+            background: rgba(0, 0, 0, 0.03);
+        }
+        
+        body.light-mode .size-preview-label {
+            color: #6B7280;
+        }
+        
+        body.light-mode .features {
+            border-top-color: rgba(0, 0, 0, 0.08);
+        }
+        
+        .spec-table {
+            margin-top: 24px;
+            overflow-x: auto;
+        }
+        
+        .spec-table table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        
+        .spec-table th,
+        .spec-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        .spec-table th {
+            color: #4ECDC4;
+            font-weight: 600;
+        }
+        
+        .spec-table td {
+            color: #B0B8C5;
+        }
+        
+        body.light-mode .spec-table th,
+        body.light-mode .spec-table td {
+            border-bottom-color: rgba(0, 0, 0, 0.08);
+        }
+        
+        body.light-mode .spec-table td {
+            color: #4B5563;
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" onclick="toggleTheme()">🌓 테마 전환</button>
+    
+    <div class="container">
+        <h1>🎨 JJIKMEOK Logo Variants</h1>
+        <p class="subtitle">그라디언트 모노그램 스타일 | 4가지 디자인 안 비교</p>
+        
+        <div class="logo-grid">
+            <!-- Variant 1: G-Loop J-Clip -->
+            <div class="logo-card">
+                <h2>G-Loop J-Clip</h2>
+                <p class="variant-label">Variant 1 | 하이브리드 모노그램</p>
+                
+                <div class="logo-display">
+                    <img src="variant1-gloop/logo-gloop-512.png" alt="G-Loop J-Clip Logo">
+                </div>
+                
+                <div class="size-preview">
+                    <span class="size-preview-label">192px</span>
+                    <img src="variant1-gloop/logo-gloop-192.png" alt="192px" width="192">
+                </div>
+                
+                <div class="size-preview">
+                    <span class="size-preview-label">128px</span>
+                    <img src="variant1-gloop/logo-gloop-128.png" alt="128px" width="128">
+                </div>
+                
+                <div class="size-preview">
+                    <span class="size-preview-label">64px</span>
+                    <img src="variant1-gloop/logo-gloop-64.png" alt="64px" width="64">
+                </div>
+                
+                <div class="size-preview">
+                    <span class="size-preview-label">32px</span>
+                    <img src="variant1-gloop/logo-gloop-32.png" alt="32px" width="32">
+                </div>
+                
+                <div class="features">
+                    <h3>✨ 특징</h3>
+                    <ul>
+                        <li>G형 아크와 J 세리프의 하이브리드</li>
+                        <li>모던하고 기술적인 느낌</li>
+                        <li>매끄러운 그라디언트 (Orange → Mint)</li>
+                        <li>원형 PWA 아이콘에 최적화</li>
+                        <li class="warning">소형 사이즈에서 가독성 주의 필요</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Variant 2: Cropped Circle -->
+            <div class="logo-card">
+                <h2>Cropped Circle '찍'</h2>
+                <p class="variant-label">Variant 2 | 스탬프 스타일</p>
+                
+                <div class="logo-display">
+                    <img src="variant2-circle/logo-circle-512.png" alt="Cropped Circle Logo">
+                </div>
+                
+                <div class="size-preview">
+                    <span class="size-preview-label">192px</span>
+                    <img src="variant2-circle/logo-circle-192.png" alt="192px" width="192">
+                </div>
+                
+                <div class="size-preview">
+                    <span class="size-preview-label">128px</span>
+                    <img src="variant2-circle/logo-circle-128.png" alt="128px" width="128">
+                </div>
+                
+                <div class="size-preview">
+                    <span class="size-preview-label">64px</span>
+                    <img src="variant2-circle/logo-circle-64.png" alt="64px" width="64">
+                </div>
+                
+                <div class="features">
+                    <h3>✨ 특징</h3>
+                    <ul>
+                        <li>한글 '찍먹' 직접 표현</li>
+                        <li>스탬프/도장 같은 즉각성</li>
+                        <li>강렬한 Orange → Red 그라디언트</li>
+                        <li>문화적 정체성 강함</li>
+                        <li class="warning">한글 복잡도로 인한 소형 가독성 제한</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Variant 3: Ribbon-J -->
+            <div class="logo-card">
+                <h2>Ribbon-J Flow</h2>
+                <p class="variant-label">Variant 3 | 플로우 리본</p>
+                
+                <div class="logo-display">
+                    <img src="variant3-ribbon/logo-ribbon-512.png" alt="Ribbon-J Logo">
+                </div>
+                
+                <div class="size-preview">
+                    <span class="size-preview-label">192px</span>
+                    <img src="variant3-ribbon/logo-ribbon-192.png" alt="192px" width="192">
+                </div>
+                
+                <div class="size-preview">
+                    <span class="size-preview-label">128px</span>
+                    <img src="variant3-ribbon/logo-ribbon-128.png" alt="128px" width="128">
+                </div>
+                
+                <div class="size-preview">
+                    <span class="size-preview-label">64px</span>
+                    <img src="variant3-ribbon/logo-ribbon-64.png" alt="64px" width="64">
+                </div>
+                
+                <div class="features">
+                    <h3>✨ 특징</h3>
+                    <ul>
+                        <li>J+G 조합 연속 리본</li>
+                        <li>미션→정산 플로우 은유</li>
+                        <li>우아하고 캘리그래피적</li>
+                        <li>애니메이션 적용 가능</li>
+                        <li class="warning">세밀한 라인으로 소형 사이즈에서 흐릿할 수 있음</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Variant 4: Stacked GG (RECOMMENDED) -->
+            <div class="logo-card" style="border-color: #00C48C;">
+                <h2>Stacked GG ⭐️</h2>
+                <p class="variant-label">Variant 4 | 이중 페이즈 (추천)</p>
+                
+                <div class="logo-display">
+                    <img src="variant4-stacked/logo-stacked-512.png" alt="Stacked GG Logo">
+                </div>
+                
+                <div class="size-preview">
+                    <span class="size-preview-label">192px</span>
+                    <img src="variant4-stacked/logo-stacked-192.png" alt="192px" width="192">
+                </div>
+                
+                <div class="size-preview">
+                    <span class="size-preview-label">128px</span>
+                    <img src="variant4-stacked/logo-stacked-128.png" alt="128px" width="128">
+                </div>
+                
+                <div class="size-preview">
+                    <span class="size-preview-label">64px</span>
+                    <img src="variant4-stacked/logo-stacked-64.png" alt="64px" width="64">
+                </div>
+                
+                <div class="size-preview">
+                    <span class="size-preview-label">32px</span>
+                    <img src="variant4-stacked/logo-stacked-32.png" alt="32px" width="32">
+                </div>
+                
+                <div class="features">
+                    <h3>✨ 특징</h3>
+                    <ul>
+                        <li>상하 적층 GG로 '찍→먹' 2단계 상징</li>
+                        <li>굵은 선으로 최고의 소형 가독성</li>
+                        <li>다크/라이트 모드 모두 우수</li>
+                        <li>PWA 아이콘 512/192 완벽 대응</li>
+                        <li>대비 3:1 이상, WCAG AA 충족</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="recommendation">
+            <h2>🏆 권장 사항</h2>
+            <p><strong>Variant 4: Stacked GG</strong>를 메인 로고로 추천합니다.</p>
+            <p><strong>이유:</strong></p>
+            <ul style="padding-left: 20px; margin-top: 12px;">
+                <li>✅ 24px 소형 크기에서도 명확한 구분 가능</li>
+                <li>✅ PWA 192/512 아이콘 규격에 최적화</li>
+                <li>✅ 다크/라이트 모드 대응 완벽</li>
+                <li>✅ "찍먹" 이중 단계(찍→먹) 의미 명확</li>
+                <li>✅ 심플하면서도 인상적인 디자인</li>
+            </ul>
+        </div>
+        
+        <div class="spec-table">
+            <h2 style="margin-bottom: 16px; color: #4ECDC4;">📊 기술 스펙</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>항목</th>
+                        <th>Variant 1</th>
+                        <th>Variant 2</th>
+                        <th>Variant 3</th>
+                        <th>Variant 4 ⭐️</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>소형 가독성 (24px+)</td>
+                        <td>중간</td>
+                        <td>낮음</td>
+                        <td>낮음</td>
+                        <td><strong>높음</strong></td>
+                    </tr>
+                    <tr>
+                        <td>PWA 아이콘 적합성</td>
+                        <td>양호</td>
+                        <td>중간</td>
+                        <td>중간</td>
+                        <td><strong>우수</strong></td>
+                    </tr>
+                    <tr>
+                        <td>대비 비율 (WCAG)</td>
+                        <td>AA</td>
+                        <td>AA</td>
+                        <td>AA</td>
+                        <td><strong>AA+</strong></td>
+                    </tr>
+                    <tr>
+                        <td>다크/라이트 모드</td>
+                        <td>양호</td>
+                        <td>양호</td>
+                        <td>양호</td>
+                        <td><strong>우수</strong></td>
+                    </tr>
+                    <tr>
+                        <td>브랜드 정체성</td>
+                        <td>모던/기술</td>
+                        <td>문화/로컬</td>
+                        <td>우아/흐름</td>
+                        <td><strong>명확/이중</strong></td>
+                    </tr>
+                    <tr>
+                        <td>해상도 지원</td>
+                        <td>32~1024px</td>
+                        <td>64~1024px</td>
+                        <td>64~1024px</td>
+                        <td>32~1024px</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <script>
+        function toggleTheme() {
+            document.body.classList.toggle('light-mode');
+            const btn = document.querySelector('.theme-toggle');
+            btn.textContent = document.body.classList.contains('light-mode') 
+                ? '🌙 다크 모드' 
+                : '🌓 테마 전환';
+        }
+    </script>
+</body>
+</html>
