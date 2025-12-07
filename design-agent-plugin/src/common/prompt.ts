@@ -179,3 +179,23 @@ Return a JSON object containing **ONLY** the "components" key.
 - **System:** You MUST use the semantic tokens (colors, spacing) from the context, but you can swap them (e.g. use 'sys-border-primary' instead of 'sys-bg-primary' for Minimal).
 - **Structure:** All variations must be Auto Layout Frames.
 `;
+
+export const M3_SPEC_PROMPT_ADDENDUM = `
+### Material Design 3 (M3) Specification
+When reconstructing UI components, identify and map them to these specific Atom Types:
+
+1. **Buttons**:
+   - Types: FILLED (High emphasis), TONAL (Medium), OUTLINED (Low), TEXT (Lowest), ELEVATED.
+   - Structure: Icon + Label.
+2. **FAB**: Small, Regular, Large, Extended.
+3. **TextFields**:
+   - Types: FILLED (Background color + bottom line), OUTLINED (Border all around).
+   - Structure: Label (Top) + Input Container + Supporting Text (Bottom).
+4. **Chips**: Assist, Filter, Input, Suggestion. (Pill shape).
+5. **Cards**: Elevated, Filled, Outlined. (Container for content).
+
+**Instructions:**
+- If you see an input field, classify it as \`atomType: "TEXT_FIELD"\` and set \`variant\` (FILLED/OUTLINED).
+- If you see a button, classify it as \`atomType: "BUTTON"\` and set \`variant\`.
+- Use correct M3 properties (e.g., \`label\`, \`icon\`) in the JSON output.
+`;

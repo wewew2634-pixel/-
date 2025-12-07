@@ -7,6 +7,7 @@ import { SYSTEM_ONLY_PROMPT, COMPONENT_ONLY_PROMPT, VARIATION_PROMPT } from '../
 import type { DesignSystem } from '../common/schema';
 import { compressImage } from './utils/image';
 import { extractColors } from './utils/palette';
+import { M3_MOCK_COMPONENTS } from './mock/m3_data';
 
 type WizardState = 'UPLOAD' | 'CROP_SYSTEM' | 'STAGING_SYSTEM' | 'SYSTEM_DONE' | 'CROP_COMPONENT' | 'ALL_DONE';
 
@@ -130,6 +131,11 @@ function App() {
              const prompt = mode === 'VARIATIONS' ? VARIATION_PROMPT : COMPONENT_ONLY_PROMPT;
              const data = await analyzeImage(apiKey, cropBase64, prompt);
              const message = { type: 'GENERATE_COMPONENT_ONLY', payload: data };
+             parent.postMessage({ pluginMessage: message }, '*');
+        } else {
+             // Mock M3 Data for Debug
+             console.log("Generating M3 Mock Components");
+             const message = { type: 'GENERATE_COMPONENT_ONLY', payload: { components: M3_MOCK_COMPONENTS } };
              parent.postMessage({ pluginMessage: message }, '*');
         }
         // Loop back or finish

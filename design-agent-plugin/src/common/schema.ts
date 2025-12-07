@@ -33,15 +33,15 @@ export const EffectTokenSchema = z.object({
     spread: z.number().optional(), // For Shadows
     color: z.string().optional(), // Hex color for shadows
     opacity: z.number().optional(), // 0-1 for shadow color opacity
-    radius: z.number().optional(), // For Blur (same as blur property really, but sometimes distinct in Figma API)
+    radius: z.number().optional(), // For Blur
   }),
 });
 
 // --- Semantics ---
 
 export const SemanticColorSchema = z.object({
-  name: z.string(), // e.g., "primary-bg"
-  reference: z.string(), // Name of the primitive token, e.g., "blue-500"
+  name: z.string(),
+  reference: z.string(),
 });
 
 // --- System Schema ---
@@ -61,21 +61,129 @@ export const DesignSystemSchema = z.object({
 
 export type DesignSystem = z.infer<typeof DesignSystemSchema>;
 
-// --- Component Schema (Recursive) ---
+// --- M3 Atom Types ---
 
-// Base properties shared by all nodes
-const BaseNodeSchema = z.object({
-  name: z.string(),
+// Define specific schemas for M3 Atoms to give AI structured targets
+// These extend the base properties but enforce specific types/variants
+
+const BaseAtomSchema = z.object({
+    name: z.string(),
+    // Standard Frame props
+    layoutMode: z.enum(['HORIZONTAL', 'VERTICAL']).optional(), // Optional because assembler might auto-set based on type
+    sizing: z.object({
+        horizontal: z.enum(['FIXED', 'HUG', 'FILL']),
+        vertical: z.enum(['FIXED', 'HUG', 'FILL']),
+    }).optional(),
+    width: z.number().optional(),
+    height: z.number().optional(),
+    padding: z.union([z.string(), z.number()]).optional(),
+    paddingX: z.union([z.string(), z.number()]).optional(),
+    paddingY: z.union([z.string(), z.number()]).optional(),
+    itemSpacing: z.union([z.string(), z.number()]).optional(),
+    fill: z.string().optional(),
+    stroke: z.string().optional(),
+    radius: z.string().optional(),
+    effect: z.string().optional(),
 });
 
+// 1. Button
+export const ButtonAtomSchema = BaseAtomSchema.extend({
+    atomType: z.literal('BUTTON'),
+    variant: z.enum(['FILLED', 'TONAL', 'OUTLINED', 'TEXT', 'ELEVATED']),
+    icon: z.enum(['NONE', 'LEADING', 'TRAILING']).optional(),
+    label: z.string(),
+});
+
+// 2. FAB
+export const FabAtomSchema = BaseAtomSchema.extend({
+    atomType: z.literal('FAB'),
+    size: z.enum(['SMALL', 'REGULAR', 'LARGE', 'EXTENDED']),
+    icon: z.string().optional(), // Icon name placeholder
+    label: z.string().optional(), // Only for Extended
+});
+
+// 3. IconButton
+export const IconButtonAtomSchema = BaseAtomSchema.extend({
+    atomType: z.literal('ICON_BUTTON'),
+    variant: z.enum(['STANDARD', 'FILLED', 'TONAL', 'OUTLINED']),
+    icon: z.string(),
+});
+
+// 4. TextField
+export const TextFieldAtomSchema = BaseAtomSchema.extend({
+    atomType: z.literal('TEXT_FIELD'),
+    variant: z.enum(['FILLED', 'OUTLINED']),
+    label: z.string(),
+    text: z.string().optional(),
+    supportingText: z.string().optional(),
+    leadingIcon: z.string().optional(),
+    trailingIcon: z.string().optional(),
+});
+
+// 5. Chip
+export const ChipAtomSchema = BaseAtomSchema.extend({
+    atomType: z.literal('CHIP'),
+    variant: z.enum(['ASSIST', 'FILTER', 'INPUT', 'SUGGESTION']),
+    label: z.string(),
+    selected: z.boolean().optional(),
+    icon: z.string().optional(),
+});
+
+// 6. Switch
+export const SwitchAtomSchema = BaseAtomSchema.extend({
+    atomType: z.literal('SWITCH'),
+    selected: z.boolean(),
+    withIcon: z.boolean().optional(),
+});
+
+// 7. Checkbox
+export const CheckboxAtomSchema = BaseAtomSchema.extend({
+    atomType: z.literal('CHECKBOX'),
+    state: z.enum(['UNCHECKED', 'CHECKED', 'INDETERMINATE']),
+});
+
+// Forward declaration for recursive types
+export type ComponentNode = TextNode | FrameNode | ComponentSetNode | AtomNode;
+
+// 8. Card
+export const CardAtomSchema: z.ZodType<any> = BaseAtomSchema.extend({
+    atomType: z.literal('CARD'),
+    variant: z.enum(['ELEVATED', 'FILLED', 'OUTLINED']),
+    // Cards are containers, so they have children
+    children: z.lazy(() => z.array(ComponentNodeSchema)),
+});
+
+// 9. Badge
+export const BadgeAtomSchema = BaseAtomSchema.extend({
+    atomType: z.literal('BADGE'),
+    size: z.enum(['SMALL', 'LARGE']),
+    value: z.string().optional(), // For Large
+});
+
+// Union of all Atom types
+export const AtomNodeSchema = z.union([
+    ButtonAtomSchema,
+    FabAtomSchema,
+    IconButtonAtomSchema,
+    TextFieldAtomSchema,
+    ChipAtomSchema,
+    SwitchAtomSchema,
+    CheckboxAtomSchema,
+    CardAtomSchema,
+    BadgeAtomSchema
+]);
+
+export type AtomNode = z.infer<typeof AtomNodeSchema>;
+
+// --- Generic Components ---
+
 // Text Node
-export const TextNodeSchema = BaseNodeSchema.extend({
+export const TextNodeSchema = z.object({
+  name: z.string(),
   type: z.literal('TEXT'),
   content: z.string(),
-  style: z.string(), // Reference to TypographyToken name
-  color: z.string().optional(), // Reference to ColorToken name
-
-  // Sizing Rules for Text
+  style: z.string(),
+  color: z.string().optional(),
   sizing: z.object({
       horizontal: z.enum(['FIXED', 'HUG', 'FILL']),
       vertical: z.enum(['FIXED', 'HUG', 'FILL']),
@@ -84,88 +192,41 @@ export const TextNodeSchema = BaseNodeSchema.extend({
 
 export type TextNode = z.infer<typeof TextNodeSchema>;
 
-// Frame Node (Auto Layout)
-// We need to define this lazily because it's recursive
-export const FrameNodeSchema: z.ZodType<any> = BaseNodeSchema.extend({
+// Frame Node (Generic Container)
+export const FrameNodeSchema: z.ZodType<any> = BaseAtomSchema.extend({
   type: z.literal('FRAME'),
-  layoutMode: z.enum(['HORIZONTAL', 'VERTICAL']),
-
-  // Sizing Rules (Replaces primaryAxisSizingMode/counterAxisSizingMode for V2)
-  sizing: z.object({
-      horizontal: z.enum(['FIXED', 'HUG', 'FILL']),
-      vertical: z.enum(['FIXED', 'HUG', 'FILL']),
-  }).optional(),
-
-  // Legacy sizing (Keep for backward compatibility or direct mapping if needed)
-  primaryAxisSizingMode: z.enum(['FIXED', 'AUTO']).optional(),
-  counterAxisSizingMode: z.enum(['FIXED', 'AUTO']).optional(),
-
-  width: z.number().optional(), // For FIXED
-  height: z.number().optional(), // For FIXED
-
-  // Styling (References to Tokens)
-  fill: z.string().optional(), // Color token name
-  stroke: z.string().optional(), // Color token name
-  radius: z.string().optional(), // Radius token name
-  effect: z.string().optional(), // Reference to EffectToken name
-
-  // Spacing (References to Tokens or raw numbers)
-  itemSpacing: z.union([z.string(), z.number()]).optional(),
-  padding: z.union([z.string(), z.number()]).optional(), // Simple padding for now (all sides)
-  paddingX: z.union([z.string(), z.number()]).optional(),
-  paddingY: z.union([z.string(), z.number()]).optional(),
-
   children: z.lazy(() => z.array(ComponentNodeSchema)),
 });
 
-export type FrameNode = {
-  name: string;
+export type FrameNode = z.infer<typeof BaseAtomSchema> & {
   type: 'FRAME';
-  layoutMode: 'HORIZONTAL' | 'VERTICAL';
-  sizing?: {
-      horizontal: 'FIXED' | 'HUG' | 'FILL';
-      vertical: 'FIXED' | 'HUG' | 'FILL';
-  };
-  primaryAxisSizingMode?: 'FIXED' | 'AUTO';
-  counterAxisSizingMode?: 'FIXED' | 'AUTO';
-  width?: number;
-  height?: number;
-  fill?: string;
-  stroke?: string;
-  radius?: string;
-  effect?: string;
-  itemSpacing?: string | number;
-  padding?: string | number;
-  paddingX?: string | number;
-  paddingY?: string | number;
   children: ComponentNode[];
 };
 
 // Component Variant Schema
 export const VariantNodeSchema = z.object({
     type: z.literal('VARIANT'),
-    properties: z.record(z.string()), // e.g. { "State": "Hover", "Size": "Large" }
-    structure: FrameNodeSchema, // The actual design of this variant
+    properties: z.record(z.string()),
+    structure: z.union([FrameNodeSchema, AtomNodeSchema]), // Can be a generic Frame OR a specific Atom
 });
 
 export type VariantNode = z.infer<typeof VariantNodeSchema>;
 
 export const ComponentSetNodeSchema = z.object({
     type: z.literal('COMPONENT_SET'),
-    name: z.string(), // e.g. "Button"
+    name: z.string(),
     variants: z.array(VariantNodeSchema),
 });
 
 export type ComponentSetNode = z.infer<typeof ComponentSetNodeSchema>;
 
 // Unified Component Node
-export const ComponentNodeSchema = z.union([
+export const ComponentNodeSchema: z.ZodType<ComponentNode> = z.union([
     TextNodeSchema,
     FrameNodeSchema,
-    ComponentSetNodeSchema
+    ComponentSetNodeSchema,
+    AtomNodeSchema // Add Atoms here
 ]);
-
-export type ComponentNode = TextNode | FrameNode | ComponentSetNode;
 
 // --- Messages ---
 

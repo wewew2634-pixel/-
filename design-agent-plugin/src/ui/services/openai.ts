@@ -1,4 +1,4 @@
-import { SYSTEM_PROMPT } from '../../common/prompt';
+import { SYSTEM_PROMPT, M3_SPEC_PROMPT_ADDENDUM } from '../../common/prompt';
 import { DesignSystemSchema, ComponentNodeSchema } from '../../common/schema';
 import { z } from 'zod';
 
@@ -16,6 +16,9 @@ export async function analyzeImage(apiKey: string, base64Image: string, prompt: 
         userPromptText += `\n\n[Pre-Extracted Colors]: ${JSON.stringify(extractedColors)}\nUse these precise hex codes for the Primitives if relevant.`;
     }
 
+    // Append M3 Spec to system prompt
+    const fullSystemPrompt = prompt + "\n" + M3_SPEC_PROMPT_ADDENDUM;
+
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -27,7 +30,7 @@ export async function analyzeImage(apiKey: string, base64Image: string, prompt: 
         messages: [
           {
             role: 'system',
-            content: prompt,
+            content: fullSystemPrompt,
           },
           {
             role: 'user',

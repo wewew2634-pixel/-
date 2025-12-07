@@ -1,0 +1,70 @@
+{
+  "hash": "cad57c68",
+  "configHash": "ad4a7a1e",
+  "lockfileHash": "5ff29e0c",
+  "browserHash": "6590f62e",
+  "optimized": {
+    "react/jsx-dev-runtime": {
+      "src": "../../node_modules/react/jsx-dev-runtime.js",
+      "file": "react_jsx-dev-runtime.js",
+      "fileHash": "1edbcdab",
+      "needsInterop": true
+    },
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "c7b56ca3",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "eaea6751",
+      "needsInterop": true
+    },
+    "react-color": {
+      "src": "../../node_modules/react-color/es/index.js",
+      "file": "react-color.js",
+      "fileHash": "6dc0aa2f",
+      "needsInterop": false
+    },
+    "react-image-crop": {
+      "src": "../../node_modules/react-image-crop/dist/index.js",
+      "file": "react-image-crop.js",
+      "fileHash": "605ba022",
+      "needsInterop": false
+    },
+    "node-vibrant": {
+      "src": "../../node_modules/node-vibrant/lib/browser.js",
+      "file": "node-vibrant.js",
+      "fileHash": "90983a53",
+      "needsInterop": true
+    },
+    "browser-image-compression": {
+      "src": "../../node_modules/browser-image-compression/dist/browser-image-compression.mjs",
+      "file": "browser-image-compression.js",
+      "fileHash": "6227bd45",
+      "needsInterop": false
+    },
+    "tinycolor2": {
+      "src": "../../node_modules/tinycolor2/esm/tinycolor.js",
+      "file": "tinycolor2.js",
+      "fileHash": "14c68d66",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-IGXLOIK6": {
+      "file": "chunk-IGXLOIK6.js"
+    },
+    "chunk-CTZ36MNZ": {
+      "file": "chunk-CTZ36MNZ.js"
+    },
+    "chunk-QETDDT2E": {
+      "file": "chunk-QETDDT2E.js"
+    },
+    "chunk-5WRI5ZAA": {
+      "file": "chunk-5WRI5ZAA.js"
+    }
+  }
+}
