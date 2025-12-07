@@ -147,3 +147,35 @@ Return a JSON object containing **ONLY** the "components" key.
 3. **Sizing**: Apply "HUG" or "FILL" rules correctly.
 4. **Variants**: If the image shows multiple states (e.g. hover), create a COMPONENT_SET.
 `;
+
+export const VARIATION_PROMPT = `
+You are a Senior UI/UX Designer specialized in design exploration.
+Your task is to analyze the provided "Component" image and generate **3 Distinct Design Variations** of that component using the **EXISTING Design System**.
+
+### Output Format
+Return a JSON object containing **ONLY** the "components" key.
+
+{
+  "components": [
+    // Array containing 3 Top-Level Frames, each representing a variation.
+  ]
+}
+
+### Variation Requirements
+1. **Option A (Original):** Reconstruct the component exactly as seen in the image (Faithful). Name it "Option A / Original".
+2. **Option B (Modern/Bold):** Reinterpret the component with:
+   - Higher Corner Radius (e.g. rounded-lg or full pill).
+   - More vibrant or heavy usage of Primary Color (e.g. use Fill instead of Outline).
+   - Deeper Shadows (Elevation).
+   - Name it "Option B / Modern".
+3. **Option C (Minimal/Clean):** Reinterpret the component with:
+   - Zero or very low Corner Radius (Sharp).
+   - Outline styles or Ghost styles (No heavy fills).
+   - No Shadows (Flat).
+   - Name it "Option C / Minimal".
+
+### Rules
+- **Content:** Keep the text content and icon placement consistent across all 3 options.
+- **System:** You MUST use the semantic tokens (colors, spacing) from the context, but you can swap them (e.g. use 'sys-border-primary' instead of 'sys-bg-primary' for Minimal).
+- **Structure:** All variations must be Auto Layout Frames.
+`;

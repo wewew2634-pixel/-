@@ -3,7 +3,7 @@ import React from 'react';
 import './index.css';
 import { SmartCropper } from './components/SmartCropper';
 import { SystemEditor } from './components/SystemEditor';
-import { SYSTEM_ONLY_PROMPT, COMPONENT_ONLY_PROMPT } from '../common/prompt';
+import { SYSTEM_ONLY_PROMPT, COMPONENT_ONLY_PROMPT, VARIATION_PROMPT } from '../common/prompt';
 import type { DesignSystem } from '../common/schema';
 import { compressImage } from './utils/image';
 import { extractColors } from './utils/palette';
@@ -121,13 +121,14 @@ function App() {
       setStatus('SYSTEM_DONE');
   };
 
-  // Step 2: Generate Component from Selection
-  const handleComponentCrop = async (cropBase64: string) => {
+  // Step 2: Generate Component from Selection (Single or Variations)
+  const handleComponentCrop = async (cropBase64: string, mode: 'SINGLE' | 'VARIATIONS' = 'SINGLE') => {
     setIsProcessing(true);
     try {
         const { analyzeImage } = await import('./services/openai');
         if (apiKey) {
-             const data = await analyzeImage(apiKey, cropBase64, COMPONENT_ONLY_PROMPT);
+             const prompt = mode === 'VARIATIONS' ? VARIATION_PROMPT : COMPONENT_ONLY_PROMPT;
+             const data = await analyzeImage(apiKey, cropBase64, prompt);
              const message = { type: 'GENERATE_COMPONENT_ONLY', payload: data };
              parent.postMessage({ pluginMessage: message }, '*');
         }
@@ -229,8 +230,10 @@ function App() {
                   imageSrc={originalImage}
                   title="Step 3: Select Component"
                   buttonLabel={isProcessing ? "Generating..." : "Generate Component"}
-                  onConfirm={handleComponentCrop}
+                  onConfirm={(crop) => handleComponentCrop(crop, 'SINGLE')}
+                  onConfirmVariations={(crop) => handleComponentCrop(crop, 'VARIATIONS')}
                   onCancel={() => setStatus('SYSTEM_DONE')}
+                  showVariationOption={true}
               />
           )}
 

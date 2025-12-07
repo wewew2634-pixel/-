@@ -6,9 +6,11 @@ import 'react-image-crop/dist/ReactCrop.css';
 interface SmartCropperProps {
   imageSrc: string;
   onConfirm: (base64Crop: string) => void;
+  onConfirmVariations?: (base64Crop: string) => void;
   onCancel: () => void;
   title: string;
   buttonLabel: string;
+  showVariationOption?: boolean;
 }
 
 function centerAspectCrop(mediaWidth: number, mediaHeight: number, aspect: number) {
@@ -27,7 +29,7 @@ function centerAspectCrop(mediaWidth: number, mediaHeight: number, aspect: numbe
   )
 }
 
-export function SmartCropper({ imageSrc, onConfirm, onCancel, title, buttonLabel }: SmartCropperProps) {
+export function SmartCropper({ imageSrc, onConfirm, onConfirmVariations, onCancel, title, buttonLabel, showVariationOption }: SmartCropperProps) {
   const [crop, setCrop] = useState<Crop>();
   const [completedCrop, setCompletedCrop] = useState<PixelCrop>();
   const imgRef = useRef<HTMLImageElement>(null);
@@ -37,7 +39,7 @@ export function SmartCropper({ imageSrc, onConfirm, onCancel, title, buttonLabel
     setCrop(centerAspectCrop(width, height, 16 / 9));
   }
 
-  async function handleConfirm() {
+  async function handleConfirm(isVariation: boolean = false) {
     if (completedCrop && imgRef.current) {
       const canvas = document.createElement('canvas');
       const crop = completedCrop;
@@ -79,10 +81,12 @@ export function SmartCropper({ imageSrc, onConfirm, onCancel, title, buttonLabel
 
       // Convert to Base64
       const base64 = canvas.toDataURL('image/png');
-      onConfirm(base64);
+      if (isVariation && onConfirmVariations) {
+          onConfirmVariations(base64);
+      } else {
+          onConfirm(base64);
+      }
     } else {
-        // If no crop selected, confirm with whole image? Or force selection?
-        // Let's force selection or default to whole if nothing moved (but onImageLoad sets center).
         if(imgRef.current) onConfirm(imageSrc);
     }
   }
@@ -115,8 +119,18 @@ export function SmartCropper({ imageSrc, onConfirm, onCancel, title, buttonLabel
 
         <div className="mt-4 flex justify-end space-x-3">
             <button onClick={onCancel} className="px-4 py-2 text-gray-300 hover:text-white">Cancel</button>
+
+            {showVariationOption && onConfirmVariations && (
+                <button
+                    onClick={() => handleConfirm(true)}
+                    className="px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded border border-purple-500"
+                >
+                    ✨ Generate 3 Variations
+                </button>
+            )}
+
             <button
-                onClick={handleConfirm}
+                onClick={() => handleConfirm(false)}
                 className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded"
             >
                 {buttonLabel}
