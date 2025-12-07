@@ -287,6 +287,9 @@ function applyCommonProps(node: FrameNode, data: any, vm: VariableMap, em: Effec
 
     // Spacing/Padding variables
     // ... (Similar logic to createFrameNode, omitted for brevity but assumed present or copied)
+
+    // High Fidelity Overrides
+    applyVisualOverrides(node, data);
 }
 
 async function loadAndApplyFont(node: TextNode, styleName: string, sm: StyleMap) {
@@ -556,5 +559,64 @@ async function createTextNode(
       if (data.sizing.vertical === 'FIXED') text.layoutSizingVertical = 'FIXED';
   }
 
+  // High Fidelity Overrides for Text
+  applyVisualOverrides(text, data);
+
   return text;
+}
+
+function applyVisualOverrides(node: SceneNode, data: any) {
+    if (!data.visualOverrides) return;
+    const vo = data.visualOverrides;
+
+    if (node.type === 'FRAME') {
+        if (vo.padding !== undefined) {
+            node.paddingLeft = vo.padding;
+            node.paddingRight = vo.padding;
+            node.paddingTop = vo.padding;
+            node.paddingBottom = vo.padding;
+        }
+        if (vo.paddingX !== undefined) {
+            node.paddingLeft = vo.paddingX;
+            node.paddingRight = vo.paddingX;
+        }
+        if (vo.paddingY !== undefined) {
+            node.paddingTop = vo.paddingY;
+            node.paddingBottom = vo.paddingY;
+        }
+        if (vo.itemSpacing !== undefined) {
+            node.itemSpacing = vo.itemSpacing;
+        }
+        if (vo.cornerRadius !== undefined) {
+            node.cornerRadius = vo.cornerRadius;
+        }
+        if (vo.strokeWeight !== undefined) {
+            node.strokeWeight = vo.strokeWeight;
+        }
+    }
+
+    // Fills/Strokes (Common)
+    if ('fills' in node && vo.fillColor) {
+        const rgb = hexToRgb(vo.fillColor);
+        if (rgb) node.fills = [{type: 'SOLID', color: rgb}];
+    }
+    if ('strokes' in node && vo.strokeColor) {
+        const rgb = hexToRgb(vo.strokeColor);
+        if (rgb) node.strokes = [{type: 'SOLID', color: rgb}];
+    }
+
+    // Text Specific
+    if (node.type === 'TEXT' && vo.fontSize) {
+        node.fontSize = vo.fontSize;
+    }
+}
+
+function hexToRgb(hex: string): {r: number, g: number, b: number} | null {
+    // Simple hex parser
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16) / 255,
+        g: parseInt(result[2], 16) / 255,
+        b: parseInt(result[3], 16) / 255
+    } : null;
 }

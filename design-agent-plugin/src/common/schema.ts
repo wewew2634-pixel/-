@@ -44,6 +44,20 @@ export const SemanticColorSchema = z.object({
   reference: z.string(),
 });
 
+// --- Visual Overrides (For High Fidelity Cloning) ---
+
+const VisualOverridesSchema = z.object({
+  padding: z.number().optional(),
+  paddingX: z.number().optional(),
+  paddingY: z.number().optional(),
+  itemSpacing: z.number().optional(),
+  cornerRadius: z.number().optional(),
+  fillColor: z.string().optional(), // Explicit hex override
+  strokeColor: z.string().optional(), // Explicit hex override
+  strokeWeight: z.number().optional(),
+  fontSize: z.number().optional(),
+});
+
 // --- System Schema ---
 
 export const DesignSystemSchema = z.object({
@@ -84,6 +98,9 @@ const BaseAtomSchema = z.object({
     stroke: z.string().optional(),
     radius: z.string().optional(),
     effect: z.string().optional(),
+
+    // High Fidelity Cloning Support
+    visualOverrides: VisualOverridesSchema.optional(),
 });
 
 // 1. Button
@@ -188,6 +205,7 @@ export const TextNodeSchema = z.object({
       horizontal: z.enum(['FIXED', 'HUG', 'FILL']),
       vertical: z.enum(['FIXED', 'HUG', 'FILL']),
   }).optional(),
+  visualOverrides: VisualOverridesSchema.optional(),
 });
 
 export type TextNode = z.infer<typeof TextNodeSchema>;

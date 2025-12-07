@@ -7,7 +7,7 @@ const ResponseSchema = z.object({
   components: z.array(ComponentNodeSchema).optional(),
 });
 
-export async function analyzeImage(apiKey: string, base64Image: string, prompt: string = SYSTEM_PROMPT, extractedColors?: string[]) {
+export async function analyzeImage(apiKey: string, base64Image: string | string[], prompt: string = SYSTEM_PROMPT, extractedColors?: string[]) {
   try {
     let userPromptText = 'Analyze this image according to the system prompt.';
 
@@ -18,6 +18,25 @@ export async function analyzeImage(apiKey: string, base64Image: string, prompt: 
 
     // Append M3 Spec to system prompt
     const fullSystemPrompt = prompt + "\n" + M3_SPEC_PROMPT_ADDENDUM;
+
+    // Construct User Content (Text + Image(s))
+    const userContent: any[] = [
+        { type: 'text', text: userPromptText }
+    ];
+
+    if (Array.isArray(base64Image)) {
+        base64Image.forEach(img => {
+            userContent.push({
+                type: 'image_url',
+                image_url: { url: img }
+            });
+        });
+    } else {
+        userContent.push({
+            type: 'image_url',
+            image_url: { url: base64Image }
+        });
+    }
 
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
@@ -34,18 +53,7 @@ export async function analyzeImage(apiKey: string, base64Image: string, prompt: 
           },
           {
             role: 'user',
-            content: [
-              {
-                type: 'text',
-                text: userPromptText,
-              },
-              {
-                type: 'image_url',
-                image_url: {
-                  url: base64Image, // Data URL format: data:image/png;base64,...
-                },
-              },
-            ],
+            content: userContent,
           },
         ],
         response_format: { type: 'json_object' },

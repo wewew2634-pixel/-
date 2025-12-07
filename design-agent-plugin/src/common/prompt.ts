@@ -198,4 +198,15 @@ When reconstructing UI components, identify and map them to these specific Atom 
 - If you see an input field, classify it as \`atomType: "TEXT_FIELD"\` and set \`variant\` (FILLED/OUTLINED).
 - If you see a button, classify it as \`atomType: "BUTTON"\` and set \`variant\`.
 - Use correct M3 properties (e.g., \`label\`, \`icon\`) in the JSON output.
+
+### High Fidelity Cloning Mode
+To ensure the output matches the visual screenshot exactly (pixel-perfect cloning):
+- If you observe specific visual values (e.g. 13px padding, 4px radius) that do not match standard tokens, you MUST use the \`visualOverrides\` field.
+- \`visualOverrides\` takes precedence over generic \`variant\` or token assignments.
+- Example:
+  "visualOverrides": {
+    "paddingX": 12,
+    "cornerRadius": 8,
+    "fillColor": "#FF5733"
+  }
 `;
